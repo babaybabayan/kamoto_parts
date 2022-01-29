@@ -1,0 +1,4 @@
+thead input {
+    width: 100%;
+}
+.dataTables_filter, .dataTables_info { display: none; }
