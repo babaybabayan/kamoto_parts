@@ -207,11 +207,11 @@ class HistoryController extends Controller{
         return view('history/e_pembelian', ['brg' => $brg, 'pym' => $pym]);
     }
     public function t_pembelian($id){
-        $pmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp','a.weight','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.id_payment','=',$id)->orderBy('b.name','asc')->get(); 
+        $pmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.id_payment','=',$id)->orderBy('b.name','asc')->get();
         return response()->json($pmb);
     }
     public function edthpmb($id){
-        $epmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp','a.weight')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->where('c.id','=',$id)->get(); 
+        $epmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->where('c.id','=',$id)->get();
         return view('history/edt_pembelian', ['epmb' => $epmb]);
     }
     public function medthpmb(Request $request){
@@ -246,7 +246,7 @@ class HistoryController extends Controller{
             $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
-        } 
+        }
     }
     public function tambahpmb(Request $request){
         $cbrg = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('a.id_payment','=',$request->idpym)->where('b.id_product','=',$request->checked)->count();

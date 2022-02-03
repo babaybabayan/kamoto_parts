@@ -19,7 +19,7 @@ class TransaksiController extends Controller{
         return view('transaksi/penjualan', ['brg' => $brg,'ctrs' => $jmltrs]);
     }
     public function data_penjualan(){
-    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','c.price')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get();	
+    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','c.price')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get();
     	return response()->json($pnj);
     }
     public function tambah(Request $request){
@@ -78,7 +78,7 @@ class TransaksiController extends Controller{
             $idpym = $p['id'];
         }
         $ipnj = $request->ipnj;
-        for ($i=0; $i < count($ipnj); $i++) { 
+        for ($i=0; $i < count($ipnj); $i++) {
             $prc = Sales::find($ipnj[$i]);
             $hrg = Barang_harga::find($prc->id_price);
             $vhrg = DB::table('price')->where('id_product','=',$hrg->id_product)->where('quantity','>',0)->orderBy('created_at','ASC')->get();
@@ -138,7 +138,7 @@ class TransaksiController extends Controller{
         return view('transaksi/pembelian', ['brg' => $brg]);
     }
     public function data_pembelian(){
-        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','a.weight')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get(); 
+        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get();
         return response()->json($pnj);
     }
     public function qtypmb(Request $request){
@@ -218,7 +218,7 @@ class TransaksiController extends Controller{
             $idspl = $p['id_supplier'];
         }
         $ipmb = $request->ipmb;
-        for ($i=0; $i < count($ipmb); $i++) { 
+        for ($i=0; $i < count($ipmb); $i++) {
             $prc = Purchases::find($ipmb[$i]);
             $prc->id_payment = $idpym;
             $prc->status = 2;
