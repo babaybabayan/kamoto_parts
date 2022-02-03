@@ -208,19 +208,33 @@ $(document).ready(function(){
                         separatorhpnj = sisahpnj ? '.' : '';
                         rupiahpnj += separatorhpnj + ribuanhpnj.join('.');
                     }
+                    var gtpnjrp = harfix;
+                    var numstrgtpnj = gtpnjrp.toString(), sisagtpnj = numstrgtpnj.length % 3, rupiahgtpnj = numstrgtpnj.substr(0, sisagtpnj), ribuangtpnj = numstrgtpnj.substr(sisagtpnj).match(/\d{3}/g);
+                    if (ribuangtpnj) {
+                        separatorgtpnj = sisagtpnj ? '.' : '';
+                        rupiahgtpnj += separatorgtpnj + ribuangtpnj.join('.');
+                    }
                     html += '<tr>'+
-                        '<td><input type="hidden" id="ipnj" class="ipnj" name="ipnj[]" value="'+data[i].idp+'">'+data[i].code_product+'</td>'+
+                        '<td><input type="hidden" id="ipnj" class="ipnj'+i+'" name="ipnj[]" value="'+data[i].idp+'">'+data[i].code_product+'</td>'+
                         '<td>'+data[i].name+'</td>'+
                         '<td>'+data[i].nameu+'</td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control qpnj'+i+'" id="qpnj" name="qpnj[]" data-input-id="'+i+'" onkeyup="getqpnj(this)" placeholder="0"><input type="hidden" id="vqpnj" class="vqpnj" name="vqpnj[]" value="'+data[i].quantity+'"></td>'+
+                        '<td style="text-align: center"><input type="number" class="form-control qpnj'+i+'" id="qpnj" name="qpnj[]" data-input-id="'+i+'" onkeyup="getqpnj(this)" onclick="setnolqpnj(this)" value="'+data[i].qtyp+'"><input type="hidden" id="vqpnj" class="vqpnj" name="vqpnj[]" value="'+data[i].quantity+'"></td>'+
                         '<td style="text-align: center"><input type="text" class="form-control hpnj'+i+'" id="hpnj" name="hpnj[]" data-input-id="'+i+'" onkeyup="gethpnj(this)" onclick="setnol(this)" value="'+rupiahpnj+'" autocomplete="off"></td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control dpnj'+i+'" id="dpnj" name="dpnj[]" data-input-id="'+i+'" onkeyup="getdpnj(this)" placeholder="0"></td>'+
-                        '<td style="text-align:center"><b><span class="gpnj'+i+'">0</span></b><input type="hidden" id="gtpnj" class="gtpnj'+i+'"></td>'+
+                        '<td style="text-align: center"><input type="number" class="form-control dpnj'+i+'" id="dpnj" name="dpnj[]" data-input-id="'+i+'" onkeyup="getdpnj(this)" onclick="setnoldpnj(this)" value="'+data[i].disc+'"></td>'+
+                        '<td style="text-align:center"><b><span class="gpnj'+i+'">'+rupiahgtpnj+'</span></b><input type="hidden" id="gtpnj" class="gtpnj'+i+'" value="'+harfix+'"></td>'+
                         '<td style="text-align:center"><a href="#" class="delprcpnj" data-id="/trs/pnj/delprc/'+data[i].idp+'"><span class="fa fa-trash"></span></a></td>'+
                     '</tr>';
                 }
                 var sum = sumharfix.reduce(function(sumharfix, b){return sumharfix + b;}, 0);
+                var tpnjrp = sum;
+                var numstrtpnj = tpnjrp.toString(), sisatpnj = numstrtpnj.length % 3, rupiahtpnj = numstrtpnj.substr(0, sisatpnj), ribuantpnj = numstrtpnj.substr(sisatpnj).match(/\d{3}/g);
+                    if (ribuantpnj) {
+                        separatortpnj = sisatpnj ? '.' : '';
+                        rupiahtpnj += separatortpnj + ribuantpnj.join('.');
+                    }
                 $('#showdata').html(html);
+                $('.ttlpnj').html(rupiahtpnj);
+                $('.sttlpnj').val(sum.toFixed(0));
             }
         });
     }
@@ -333,20 +347,40 @@ $(document).ready(function(){
                     harfix = jmlp - har1;
                     sumharfix.push(harfix);
                     o.push(i);
+                    var hrgpmbrp = data[i].capital;
+                    var numstrhpmb = hrgpmbrp.toString(), sisahpmb = numstrhpmb.length % 3, rupiahpmb = numstrhpmb.substr(0, sisahpmb), ribuanhpmb = numstrhpmb.substr(sisahpmb).match(/\d{3}/g);
+                    if (ribuanhpmb) {
+                        separatorhpmb = sisahpmb ? '.' : '';
+                        rupiahpmb += separatorhpmb + ribuanhpmb.join('.');
+                    }
+                    var gtpmbrp = harfix;
+                    var numstrgtpmb = gtpmbrp.toString(), sisagtpmb = numstrgtpmb.length % 3, rupiahgtpmb = numstrgtpmb.substr(0, sisagtpmb), ribuangtpmb = numstrgtpmb.substr(sisagtpmb).match(/\d{3}/g);
+                    if (ribuangtpmb) {
+                        separatorgtpmb = sisagtpmb ? '.' : '';
+                        rupiahgtpmb += separatorgtpmb + ribuangtpmb.join('.');
+                    }
                     html += '<tr>'+
-                        '<td><input type="hidden" id="ipmb" class="ipmb" name="ipmb[]" value="'+data[i].idp+'">'+data[i].code_product+'</td>'+
+                        '<td><input type="hidden" id="ipmb" class="ipmb'+i+'" name="ipmb[]" value="'+data[i].idp+'">'+data[i].code_product+'</td>'+
                         '<td>'+data[i].name+'</td>'+
                         '<td>'+data[i].nameu+'</td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control qpmb'+i+'" id="qpmb" name="qpmb[]" data-input-id="'+i+'" onkeyup="getqpmb(this)" placeholder="0"></td>'+
-                        '<td style="text-align: center"><input type="text" class="form-control hpmb'+i+'" id="hpmb" name="hpmb[]" data-input-id="'+i+'" onkeyup="gethpmb(this)" placeholder="0" autocomplete="off"></td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control dpmb'+i+'" id="dpmb" name="dpmb[]" data-input-id="'+i+'" onkeyup="getdpmb(this)" placeholder="0"></td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control bpmb'+i+'" id="bpmb" name="bpmb[]" placeholder="0"></td>'+
-                        '<td style="text-align:center"><b><span class="gpmb'+i+'">0</span></b><input type="hidden" id="gtpmb" class="gtpmb'+i+'"></td>'+
+                        '<td style="text-align: center"><input type="number" class="form-control qpmb'+i+'" id="qpmb" name="qpmb[]" data-input-id="'+i+'" onkeyup="getqpmb(this)" onclick="setnolqpmb(this)" value="'+data[i].qtyp+'"></td>'+
+                        '<td style="text-align: center"><input type="text" class="form-control hpmb'+i+'" id="hpmb" name="hpmb[]" data-input-id="'+i+'" onkeyup="gethpmb(this)" onclick="setnolhpmb(this)" value="'+rupiahpmb+'" autocomplete="off"></td>'+
+                        '<td style="text-align: center"><input type="number" class="form-control dpmb'+i+'" id="dpmb" name="dpmb[]" data-input-id="'+i+'" onkeyup="getdpmb(this)" onclick="setnoldpmb(this)" value="'+data[i].disc+'"></td>'+
+                        '<td style="text-align: center"><input type="number" class="form-control bpmb'+i+'" id="bpmb" name="bpmb[]" data-input-id="'+i+'" onkeyup="getbpmb(this)" value="'+data[i].weight+'"></td>'+
+                        '<td style="text-align:center"><b><span class="gpmb'+i+'">'+rupiahgtpmb+'</span></b><input type="hidden" id="gtpmb" class="gtpmb'+i+'" value="'+harfix+'"></td>'+
                         '<td style="text-align:center"><a href="#" class="delprcpmb" data-id="/trs/pmb/delprc/'+data[i].id+'/'+data[i].qtyp+'"><span class="fa fa-trash"></span></a></td>'+
                     '</tr>';
                 }
                 var sum = sumharfix.reduce(function(sumharfix, b){return sumharfix + b;}, 0);
-                $('#showdatapmb').html(html);            
+                var tpmbrp = sum;
+                var numstrtpmb = tpmbrp.toString(), sisatpmb = numstrtpmb.length % 3, rupiahtpmb = numstrtpmb.substr(0, sisatpmb), ribuantpmb = numstrtpmb.substr(sisatpmb).match(/\d{3}/g);
+                if (ribuantpmb) {
+                    separatortpmb = sisatpmb ? '.' : '';
+                    rupiahtpmb += separatortpmb + ribuantpmb.join('.');
+                }
+                $('#showdatapmb').html(html);
+                $('.ttlpmb').html(rupiahtpmb);
+                $('.sttlpmb').val(sum.toFixed(0));
             }
         });
     }
@@ -1076,6 +1110,7 @@ $(document).ready(function(){
 function getqpmb(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
+    var ipmb = $('.ipmb'+inputId).val();
     var hpnj = $('.hpmb'+inputId).val();
     var dpnj = $('.dpmb'+inputId).val();
     var val2 = hpnj.replace(/[^,\d]/g, '').toString();
@@ -1123,11 +1158,20 @@ function getqpmb(element){
     }
     $('.ttlpmb').html(rupiah2);
     $('.sttlpmb').val(sum.toFixed(0));
+    $.ajax({
+        url: '/trs/pmb/qtypmb',
+        type: 'post',
+        data: {id:ipmb, qty:qf},
+        success: function(data){
+
+        }
+    })
 }
 function gethpmb(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
     var val2 = val.replace(/[^,\d]/g, '').toString();
+    var ipmb = $('.ipmb'+inputId).val();
     var qpnj = $('.qpmb'+inputId).val();
     var dpnj = $('.dpmb'+inputId).val();
     if (qpnj=='') {
@@ -1175,10 +1219,19 @@ function gethpmb(element){
     $('.ttlpmb').html(rupiah2);
     $('.sttlpmb').val(sum.toFixed(0));
     $('.hpmb'+inputId).val(formatRupiahx(val));
+    $.ajax({
+        url: '/trs/pmb/hrgpmb',
+        type: 'post',
+        data: {id:ipmb, hrg:hf},
+        success: function(data){
+
+        }
+    })
 }
 function getdpmb(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
+    var ipmb = $('.ipmb'+inputId).val();
     var qpnj = $('.qpmb'+inputId).val();
     var hpnj = $('.hpmb'+inputId).val();
     var val2 = hpnj.replace(/[^,\d]/g, '').toString();
@@ -1226,10 +1279,32 @@ function getdpmb(element){
     }
     $('.ttlpmb').html(rupiah2);
     $('.sttlpmb').val(sum.toFixed(0));
+    $.ajax({
+        url: '/trs/pmb/dispmb',
+        type: 'post',
+        data: {id:ipmb, dis:df},
+        success: function(data){
+
+        }
+    })
+}
+function getbpmb(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    var ipmb = $('.ipmb'+inputId).val();
+    $.ajax({
+        url: '/trs/pmb/brtpmb',
+        type: 'post',
+        data: {id:ipmb, brt:val},
+        success: function(data){
+
+        }
+    })
 }
 function getqpnj(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
+    var ipnj = $('.ipnj'+inputId).val();
     var hpnj = $('.hpnj'+inputId).val();
     var dpnj = $('.dpnj'+inputId).val();
     var val2 = hpnj.replace(/[^,\d]/g, '').toString();
@@ -1278,10 +1353,19 @@ function getqpnj(element){
 
     $('.ttlpnj').html(rupiah2);
     $('.sttlpnj').val(sum.toFixed(0));
+    $.ajax({
+        url: '/trs/pnj/qtypnj',
+        type: 'post',
+        data: {id:ipnj, qty:qf},
+        success: function(data){
+
+        }
+    })
 }
 function gethpnj(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
+    var ipnj = $('.ipnj'+inputId).val();
     var qpnj = $('.qpnj'+inputId).val();
     var dpnj = $('.dpnj'+inputId).val();
     var val2 = val.replace(/[^,\d]/g, '').toString();
@@ -1331,10 +1415,19 @@ function gethpnj(element){
     $('.ttlpnj').html(rupiah2);
     $('.sttlpnj').val(sum.toFixed(0));
     $('.hpnj'+inputId).val(formatRupiahx(val));
+    $.ajax({
+        url: '/trs/pnj/hrgpnj',
+        type: 'post',
+        data: {id:ipnj, hrg:hf},
+        success: function(data){
+
+        }
+    })
 }
 function getdpnj(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
+    var ipnj = $('.ipnj'+inputId).val();
     var qpnj = $('.qpnj'+inputId).val();
     var hpnj = $('.hpnj'+inputId).val();
     var val2 = hpnj.replace(/[^,\d]/g, '').toString();
@@ -1383,6 +1476,14 @@ function getdpnj(element){
 
     $('.ttlpnj').html(rupiah2);
     $('.sttlpnj').val(sum.toFixed(0));
+    $.ajax({
+        url: '/trs/pnj/dispnj',
+        type: 'post',
+        data: {id:ipnj, dis:df},
+        success: function(data){
+
+        }
+    })
 }
 function insbrgpnj(element){
     const inputId = element.dataset.inputId;
@@ -1434,6 +1535,46 @@ function hpmbrf(element){
     const val = element.value;
     $('.mhjbpmb').val(formatRupiahx(val));
 }
+function setnolqpmb(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    if (val==0) {
+        var h = '';
+    }else{
+        var h = val;
+    }
+    $('.qpmb'+inputId).val(h);
+}
+function setnolhpmb(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    if (val==0) {
+        var h = '';
+    }else{
+        var h = val;
+    }
+    $('.hpmb'+inputId).val(formatRupiahx(h));
+}
+function setnoldpmb(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    if (val==0) {
+        var h = '';
+    }else{
+        var h = val;
+    }
+    $('.dpmb'+inputId).val(h);
+}
+function setnolqpnj(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    if (val==0) {
+        var h = '';
+    }else{
+        var h = val;
+    }
+    $('.qpnj'+inputId).val(h);
+}
 function setnol(element){
     const inputId = element.dataset.inputId;
     const val = element.value;
@@ -1443,6 +1584,16 @@ function setnol(element){
         var h = val;
     }
     $('.hpnj'+inputId).val(formatRupiahx(h));
+}
+function setnoldpnj(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    if (val==0) {
+        var h = '';
+    }else{
+        var h = val;
+    }
+    $('.dpnj'+inputId).val(h);
 }
 function hpnjrf(element){
     const val = element.value;

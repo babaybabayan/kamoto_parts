@@ -13,7 +13,8 @@ use PDF;
 
 class HistoryController extends Controller{
     public function fh_penjualan(){
-        return view('history/fpenjualan');
+        $hst = DB::table('payment as a')->select('a.id','a.created_at','a.invoice','a.due_date','a.total_payment','b.name as namecus','c.name as namests','d.name as namesls')->join('customer as b', 'a.id_customer', '=', 'b.id')->join('status as c', 'a.id_status', '=', 'c.id')->join('sales_user as d', 'a.id_salesuser', '=', 'd.id')->whereDate('a.created_at','=',date('Y-m-d '))->orderBy('a.created_at','ASC')->get();
+        return view('history/fpenjualan', ['hst' => $hst]);
     }
     public function h_penjualan(Request $request){
         $tgl1 = date('Y-m-d', strtotime($request->tglhst1));
@@ -191,7 +192,8 @@ class HistoryController extends Controller{
         $sls->save();
     }
     public function fh_pembelian(){
-        return view('history/fpembelian');
+        $hst = DB::table('purchases_payment as a')->select('a.id','a.created_at','a.invoice','a.due_date','a.total_payment','b.name','c.name as namests')->join('supplier as b', 'a.id_supplier', '=', 'b.id')->join('status as c', 'a.id_status', '=', 'c.id')->whereDate('a.created_at','=',date('Y-m-d'))->orderBy('a.created_at','ASC')->get();
+        return view('history/fpembelian', ['hst' => $hst]);
     }
     public function h_pembelian(Request $request){
         $tgl1 = date('Y-m-d', strtotime($request->tglhst1));
