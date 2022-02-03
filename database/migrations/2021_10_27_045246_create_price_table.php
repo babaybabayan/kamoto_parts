@@ -20,6 +20,7 @@ class CreatePriceTable extends Migration
             $table->integer('capital');
             $table->integer('selling');
             $table->integer('quantity');
+            $table->string('weight');
             $table->timestamps();
         });
     }
