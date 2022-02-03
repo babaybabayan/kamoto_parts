@@ -2,7 +2,7 @@
 	<?php
 		function rupiah($angka){
             $hasil_rupiah = number_format($angka,0,',','.');
-            return $hasil_rupiah; 
+            return $hasil_rupiah;
         }
 	?>
 	<form action="#" method="post" enctype="multipart/form-data" class="form-horizontal mhpmbform" id="mhpmbform" name="mhpmbform">
@@ -20,10 +20,6 @@
 			<tr>
 				<td><label>Discount</label></td>
 				<td><input type="number" value="{{$ep->disc}}" class="form-control mdischpmb" name="mdischpmb"></td>
-			</tr>
-			<tr>
-				<td><label>Berat</label></td>
-				<td><input type="number" value="{{$ep->weight}}" class="form-control mwghpmb" name="mwghpmb"></td>
 			</tr>
 		</table>
 	</form>

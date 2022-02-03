@@ -53,7 +53,7 @@
             <td style="text-align: center">{{ $tmpo }}</td>
             <td>{{ $h->namecus }}</td>
             <td>{{ $h->namesls }}</td>
-            <td style="text-align: right">{{ $h->total_payment }}</td></input>
+            <td style="text-align: right">{{ $h->total_payment }}</td>
             <td style="text-align: center">
               <a href="/hst/epnj/{{ $h->id }}"><span class="fa fa-edit"></span></a>
             </td>

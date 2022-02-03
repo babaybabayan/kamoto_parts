@@ -17,6 +17,7 @@ class CreateProductNameTable extends Migration
             $table->increments('id');
             $table->string('code_product');
             $table->string('name');
+            $table->string('weight');
             $table->integer('id_unit');
             $table->timestamps();
         });

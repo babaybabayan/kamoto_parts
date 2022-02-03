@@ -190,9 +190,9 @@ $(document).ready(function(){
             dataType:'json',
             success : function(data){
                 var html = '';
-                var i;    
-                var jmlp;   
-                var disco; 
+                var i;
+                var jmlp;
+                var disco;
                 var har1;
                 var harfix;
                 var sumharfix = [];
@@ -242,7 +242,7 @@ $(document).ready(function(){
         $('input:checkbox').removeAttr('checked');
         $('.listbrg').modal('hide');
         tampildatapenjualan();
-       
+
     });
     $(function(){
         $(document).on('click','.delprcpnj',function(e){
@@ -333,9 +333,9 @@ $(document).ready(function(){
             dataType:'json',
             success : function(data){
                 var html = '';
-                var i;  
+                var i;
                 var jmlp;
-                var disco; 
+                var disco;
                 var har1;
                 var harfix;
                 var sumharfix = [];
@@ -366,7 +366,6 @@ $(document).ready(function(){
                         '<td style="text-align: center"><input type="number" class="form-control qpmb'+i+'" id="qpmb" name="qpmb[]" data-input-id="'+i+'" onkeyup="getqpmb(this)" onclick="setnolqpmb(this)" value="'+data[i].qtyp+'"></td>'+
                         '<td style="text-align: center"><input type="text" class="form-control hpmb'+i+'" id="hpmb" name="hpmb[]" data-input-id="'+i+'" onkeyup="gethpmb(this)" onclick="setnolhpmb(this)" value="'+rupiahpmb+'" autocomplete="off"></td>'+
                         '<td style="text-align: center"><input type="number" class="form-control dpmb'+i+'" id="dpmb" name="dpmb[]" data-input-id="'+i+'" onkeyup="getdpmb(this)" onclick="setnoldpmb(this)" value="'+data[i].disc+'"></td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control bpmb'+i+'" id="bpmb" name="bpmb[]" data-input-id="'+i+'" onkeyup="getbpmb(this)" value="'+data[i].weight+'"></td>'+
                         '<td style="text-align:center"><b><span class="gpmb'+i+'">'+rupiahgtpmb+'</span></b><input type="hidden" id="gtpmb" class="gtpmb'+i+'" value="'+harfix+'"></td>'+
                         '<td style="text-align:center"><a href="#" class="delprcpmb" data-id="/trs/pmb/delprc/'+data[i].id+'/'+data[i].qtyp+'"><span class="fa fa-trash"></span></a></td>'+
                     '</tr>';
@@ -444,9 +443,9 @@ $(document).ready(function(){
             dataType:'json',
             success : function(data){
                 var html = '';
-                var i;    
-                var jmlp;   
-                var disco; 
+                var i;
+                var jmlp;
+                var disco;
                 var har1;
                 var harfix;
                 var sumharfix = [];
@@ -575,7 +574,7 @@ $(document).ready(function(){
             dataType:'json',
             success : function(data){
                 var html = '';
-                var i;  
+                var i;
                 var jmlp;
                 var dis;
                 var dis2;
@@ -604,7 +603,6 @@ $(document).ready(function(){
                         '<td style="text-align: center"><input type="number" class="form-control qhpmb'+i+'" id="qhpmb" name="qhpmb[]" value="'+data[i].qtyp+'" readonly></td>'+
                         '<td style="text-align: center"><input type="text" class="form-control hhpmb'+i+'" id="hhpmb" name="hhpmb[]" value="'+rupiahpmb2+'" readonly></td>'+
                         '<td style="text-align: center"><input type="number" class="form-control dhpmb'+i+'" id="dhpmb" name="dhpmb[]" value="'+data[i].disc+'" readonly></td>'+
-                        '<td style="text-align: center"><input type="number" class="form-control bhpmb'+i+'" id="bhpmb" name="bhpmb[]" value="'+data[i].weight+'" readonly></td>'+
                         '<td style="text-align:center"><b><span class="ghpmb'+i+'">'+rupiahpmb+'</span></b><input type="hidden" id="gthpmb" class="gthpmb'+i+'" value="'+dis2+'"></td>'+
                         '<td style="text-align:center"><a href="#" class="edthpmb" data-id="/hst/epmb/edthpmb/'+data[i].idp+'"><span class="fa fa-edit"></span></a></td>'+
                         '<td style="text-align:center"><a href="#" class="delhpmb" data-id="/hst/epmb/delhpmb/'+data[i].idp+'"><span class="fa fa-trash"></span></a></td>'+
@@ -1600,19 +1598,19 @@ function hpnjrf(element){
     $('.mhjhpnj').val(formatRupiahx(val));
 }
 function formatRupiahx(angkax, prefixx){
-    
+
     var number_string3 = angkax.replace(/[^,\d]/g, '').toString(),
             split3           = number_string3.split(','),
             sisa3            = split3[0].length % 3,
             rupiah3          = split3[0].substr(0, sisa3),
             ribuan3          = split3[0].substr(sisa3).match(/\d{3}/gi);
- 
+
             // tambahkan titik jika yang di input sudah menjadi angka ribuan
             if(ribuan3){
                 separator3 = sisa3 ? '.' : '';
                 rupiah3 += separator3 + ribuan3.join('.');
             }
- 
+
             rupiah3 = split3[1] != undefined ? rupiah3 + ',' + split3[1] : rupiah3;
             return prefixx == undefined ? rupiah3 : (rupiah3 ? rupiah3 : '');
         }

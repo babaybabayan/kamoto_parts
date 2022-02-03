@@ -15,7 +15,7 @@
               <li><a href="/psd">Nilai Persediaan</a></li>
               <li><a href="/brg/sat">Satuan Barang</a></li>
               <li><a href="/spl">Supplier</a></li>
-              <li><a href="/cus">Kustomer</a></li>
+              <li><a href="/cus">Customer</a></li>
               <li><a href="/sls">Sales</a></li>
             </ul>
           </li>
