@@ -11,7 +11,24 @@
       <input type="text" class="form-control has-feedback-left tgltmpopmb" value="{{date('d-m-Y')}}" readonly>
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
     </div>
-    <div class="col-md-7" style="text-align: right">
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-4">
+      <input type="text" class="form-control has-feedback-left invpmb" placeholder="No. Faktur" id="invpmb">
+      <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-2">
+      <input type="text" class="form-control has-feedback-left namesplpmb" placeholder="Pilih Supplier" autocomplete="off">
+      <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idsplpmb" id="idsplpmb">
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-6" style="text-align: left">
       <a href="#" data-toggle="modal" data-target=".listbrgpmb"><h5><i><u>Klik disini untuk membuka list Barang</u></i></h5></a>
     </div>
     <div class="modal fade listbrgpmb" tabindex="-1" role="dialog" aria-hidden="true">
@@ -52,20 +69,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-4">
-      <input type="text" class="form-control has-feedback-left invpmb" placeholder="No. Faktur" id="invpmb">
-      <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left namesplpmb" placeholder="Pilih Supplier" autocomplete="off">
-      <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idsplpmb" id="idsplpmb">
     </div>
   </div>
   <br/>

@@ -11,7 +11,47 @@
       <input type="text" class="form-control has-feedback-left tgltmpo" value="{{date('d-m-Y')}}" readonly>
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
     </div>
-    <div class="col-md-7" style="text-align: right">
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-5">
+      <?php
+        $ltrs = strlen($ctrs);
+        if ($ltrs==1) {
+          $jmltrs = '000000'.$ctrs;
+        }elseif ($ltrs==2) {
+          $jmltrs = '00000'.$ctrs;
+        }elseif ($ltrs==3) {
+          $jmltrs = '0000'.$ctrs;
+        }elseif ($ltrs==4) {
+          $jmltrs = '000'.$ctrs;
+        }elseif ($ltrs==5) {
+          $jmltrs = '00'.$ctrs;
+        }elseif ($ltrs==6) {
+          $jmltrs = '0'.$ctrs;
+        }elseif ($ltrs==7) {
+          $jmltrs = $ctrs;
+        }
+      ?>
+      <input type="text" class="form-control has-feedback-left invpnj" value="{{ $jmltrs }}" readonly>
+      <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-2">
+      <input type="text" class="form-control has-feedback-left namecus" placeholder="Pilih Customer">
+      <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idcus" id="idcus">
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <input type="text" class="form-control has-feedback-left namesls" placeholder="Pilih Sales">
+      <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idsls" id="idsls">
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-7" style="text-align: left">
       <a href="#" data-toggle="modal" data-target=".listbrg"><h5><i><u>Klik disini untuk membuka list Barang</u></i></h5></a>
     </div>
     <div class="modal fade listbrg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -71,43 +111,6 @@
           
         </div>
       </div>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-5">
-      <?php
-        $ltrs = strlen($ctrs);
-        if ($ltrs==1) {
-          $jmltrs = '000000'.$ctrs;
-        }elseif ($ltrs==2) {
-          $jmltrs = '00000'.$ctrs;
-        }elseif ($ltrs==3) {
-          $jmltrs = '0000'.$ctrs;
-        }elseif ($ltrs==4) {
-          $jmltrs = '000'.$ctrs;
-        }elseif ($ltrs==5) {
-          $jmltrs = '00'.$ctrs;
-        }elseif ($ltrs==6) {
-          $jmltrs = '0'.$ctrs;
-        }elseif ($ltrs==7) {
-          $jmltrs = $ctrs;
-        }
-      ?>
-      <input type="text" class="form-control has-feedback-left invpnj" value="{{ $jmltrs }}" readonly>
-      <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left namecus" placeholder="Pilih Customer">
-      <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idcus" id="idcus">
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left namesls" placeholder="Pilih Sales">
-      <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idsls" id="idsls">
     </div>
   </div>
   <br/>

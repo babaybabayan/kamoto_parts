@@ -19,7 +19,7 @@ class TransaksiController extends Controller{
         return view('transaksi/penjualan', ['brg' => $brg,'ctrs' => $jmltrs]);
     }
     public function data_penjualan(){
-    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get();	
+    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','c.price')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get();	
     	return response()->json($pnj);
     }
     public function tambah(Request $request){
@@ -32,6 +32,24 @@ class TransaksiController extends Controller{
         }else{
             DB::table('sales')->where('id_price','=',$request->checked)->where('status','=',1)->delete();
         }
+    }
+    public function qtypnj(Request $request){
+        $prc = Sales::find($request->id);
+        $prc->quantity = $request->qty;
+        $prc->save();
+    }
+    public function hrgpnj(Request $request){
+        $prc = Sales::find($request->id);
+        $prc->price = $request->hrg;
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->selling = $request->hrg;
+        $hrg->save();
+        $prc->save();
+    }
+    public function dispnj(Request $request){
+        $prc = Sales::find($request->id);
+        $prc->disc = $request->dis;
+        $prc->save();
     }
     public function delprc($id){
         $prc = Sales::find($id);
@@ -120,8 +138,33 @@ class TransaksiController extends Controller{
         return view('transaksi/pembelian', ['brg' => $brg]);
     }
     public function data_pembelian(){
-        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get(); 
+        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','a.weight')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get(); 
         return response()->json($pnj);
+    }
+    public function qtypmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $prc->quantity = $request->qty;
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->quantity = $request->qty;
+        $hrg->save();
+        $prc->save();
+    }
+    public function hrgpmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->capital = $request->hrg;
+        $hrg->save();
+    }
+    public function dispmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $prc->disc = $request->dis;
+        $prc->save();
+    }
+    public function brtpmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->weight = $request->brt;
+        $hrg->save();
     }
     public function insprc(Request $request){
         $cprc = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('b.id_product','=',$request->checked)->where('a.status','=',1)->count();
@@ -178,8 +221,6 @@ class TransaksiController extends Controller{
         for ($i=0; $i < count($ipmb); $i++) { 
             $prc = Purchases::find($ipmb[$i]);
             $prc->id_payment = $idpym;
-            $prc->quantity = $request->qpmb[$i];
-            $prc->disc = $request->dpmb[$i];
             $prc->status = 2;
             $hrg = Barang_harga::find($prc->id_price);
             $chrg = DB::table('price')->where('id_product','=',$hrg->id_product)->where('selling','!=',0)->count();
@@ -191,12 +232,8 @@ class TransaksiController extends Controller{
                     $sellinglast = $h->selling;
                 }
             }
-            $hrgb = str_replace(".", "", $request->hpmb[$i]);
-            $hrg->capital = $hrgb;
             $hrg->selling = $sellinglast;
-            $hrg->quantity = $request->qpmb[$i];
             $hrg->id_supplier = $idspl;
-            $hrg->weight = $request->bpmb[$i];
             $hrg->save();
             $prc->save();
         }
