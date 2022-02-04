@@ -34,7 +34,7 @@
     </div>
     <script src="{{url('gentelella-master/vendors/jquery/dist/jquery.min.js')}}"></script>
     <script src="{{url('gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    
+
     <script src="{{url('gentelella-master/vendors/fastclick/lib/fastclick.js')}}"></script>
     <script src="{{url('gentelella-master/vendors/nprogress/nprogress.js')}}"></script>
     <script src="{{url('gentelella-master/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js')}}"></script>
@@ -59,7 +59,7 @@
     <script src="{{url('kamotoparts/typehead.js')}}"></script>
 
     <script type="text/javascript">
-    
+
         var route = "{{url('/cus/namecus')}}";
         $('.namecus').typeahead({
             source: function (query, process){
@@ -133,7 +133,7 @@
             });
         });
     </script>
-    <script src="{{url('kamotoparts/kamotoparts.js')}}"></script>
+    <script src="{{url('kamotoparts/parts.js')}}"></script>
     <script src="{{url('gentelella-master/build/js/custom.min.js')}}"></script>
   </body>
 </html>
