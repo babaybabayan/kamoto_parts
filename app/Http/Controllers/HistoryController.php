@@ -224,7 +224,6 @@ class HistoryController extends Controller{
             $hrgb = str_replace(".", "", $request->mhjbpmb);
             $hrg->capital = $hrgb;
             $hrg->quantity = $hrg->quantity+$slsh;
-            $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
         }elseif ($request->mqtyhpmb<$prc->quantity) {
@@ -235,7 +234,6 @@ class HistoryController extends Controller{
             $hrgb = str_replace(".", "", $request->mhjbpmb);
             $hrg->capital = $hrgb;
             $hrg->quantity = $hrg->quantity-$slsh;
-            $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
         }else{
@@ -243,7 +241,6 @@ class HistoryController extends Controller{
             $hrg = Barang_harga::find($prc->id_price);
             $hrgb = str_replace(".", "", $request->mhjbpmb);
             $hrg->capital = $hrgb;
-            $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
         }
