@@ -133,7 +133,7 @@
             });
         });
     </script>
-    <script src="{{url('kamotoparts/parts.js')}}"></script>
+    <script src="{{url('kamotoparts/kamotoparts.js')}}"></script>
     <script src="{{url('gentelella-master/build/js/custom.min.js')}}"></script>
   </body>
 </html>
