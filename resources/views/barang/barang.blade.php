@@ -2,10 +2,15 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-11">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah">
-                <span class="fa fa-plus-square"></span>
-            </button>
+        <div style="float: left">
+            <h3>Master Barang</h3>
+        </div>
+        <div style="float: right;">
+            <div class="col-md-11" style="text-align: right;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah">
+                    <span class="fa fa-plus-square"></span>
+                </button>
+            </div>
             <div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -42,6 +47,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <table id="datatable" class="table table-striped table-bordered">
             <thead>
                 <tr>

@@ -2,6 +2,9 @@
 
 @section('content')
   @foreach($stg as $s)
+    <div class="row">
+      <h3>Pengaturan Invoice</h3>
+    </div>
   	<div class="row">
       <table class="table" style="width: 30%">
         <tr>

@@ -2,6 +2,9 @@
 
 @section('content')
   <div class="row">
+    <h3>Dashboard</h3>
+  </div>
+  <div class="row">
     @php 
       $bln = date('m');
       if($bln=='01'){

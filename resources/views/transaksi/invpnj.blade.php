@@ -1,7 +1,7 @@
 <html>
   <head>
     <style>
-      @page { margin: 25px 0px 0px 0px; }
+      @page { margin: 35px 0px 10px 0px; }
       #footer { position: fixed; left: 30px; bottom: 0px; right: 30px; height: 130px; }
       #page:after { content: counter( page, upper); }
     </style>

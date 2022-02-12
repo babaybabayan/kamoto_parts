@@ -47,7 +47,7 @@ class SupplierController extends Controller{
         $spl = Supplier::where('name', 'LIKE', '%'.$qnamespl.'%')->get();
         $filterResult = array();
         foreach ($spl as $s) {
-            $filterResult[] = $s->code_supplier.' - '.$s->name;
+            $filterResult[] = $s->code_supplier.' - '.$s->name.' - '.$s->city;
         }
         return response()->json($filterResult);
     }

@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="row">
+        <h3>History Pembelian</h3>
+    </div>
+    <div class="row">
         @foreach ($pym as $p)
             <?php
             $tgl3 = $p->created_at;
@@ -20,7 +23,8 @@
             }
             ?>
         @endforeach
-
+        <input type="hidden" class="idpympmb" name="idpympmb" value="{{ $idpym }}">
+        <input type="hidden" class="idsplhpmb" name="idsplhpmb" value="{{ $idspl }}">
         <div class="col-md-2">
             <input type="text" class="form-control has-feedback-left" value="{{ date('d-m-Y', strtotime($tgl3)) }}" readonly>
             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -30,57 +34,10 @@
             <input type="text" class="form-control has-feedback-left" value="{{ date('d-m-Y', strtotime($tgl4)) }}" readonly>
             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
         </div>
-        <div class="col-md-7" style="text-align: right">
-            <a href="#" data-toggle="modal" data-target=".listbrghstpmb">
-                <h5><i><u>Klik disini untuk membuka list Barang</u></i></h5>
-            </a>
-        </div>
-        <div class="modal fade listbrghstpmb" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="myModalLabel">List Barang</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal hstpmbform" id="hstpmbform" name="hstpmbform">
-                            {{ csrf_field() }}
-                            <input type="hidden" class="idpympmb" name="idpympmb" value="{{ $idpym }}">
-                            <table class="table table-striped table-bordered dtlbtp" style="width: 875px">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5px; text-align: center"></th>
-                                        <th style="width: 150px; text-align: center">Kode</th>
-                                        <th style="width: 400px; text-align: center">Nama</th>
-                                        <th style="width: 100px; text-align: center">Stok</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($brg as $b)
-                                        <tr>
-                                            <td><input type="checkbox" data-input-id="{{ $b->id }}" onclick="insbrghpmb(this)"></td>
-                                            <td>{{ $b->code_product }}</td>
-                                            <td>{{ $b->name }}</td>
-                                            <td style="text-align: center">
-                                                {{ $sldstk = \App\Models\Barang_harga::where(['id_product' => $b->id])->pluck('quantity')->sum() }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <a href="#" class="btn btn-primary smpnhstpmb">OK</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <br />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <input type="text" class="form-control has-feedback-left" value="{{ $inv }}" readonly>
             <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
         </div>
@@ -90,6 +47,13 @@
         <div class="col-md-2">
             <input type="text" class="form-control has-feedback-left" value="{{ $spl }}" readonly>
             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-5">
+            <input type="text" class="form-control has-feedback-left namebrghpmb" placeholder="Pilih Barang" autocomplete="off">
+            <span class="fa fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
         </div>
     </div>
     <br />

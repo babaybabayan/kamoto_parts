@@ -3,6 +3,9 @@
 @section('content')
   <form action="/rpt/hpnj" method="post" enctype="multipart/form-data" class="form-horizontal">
     <div class="row">
+      <h3>Laporan Penjualan</h3>
+    </div>
+    <div class="row">
       @if($errors->any())
         <h4>{{$errors->first()}}</h4>
       @endif

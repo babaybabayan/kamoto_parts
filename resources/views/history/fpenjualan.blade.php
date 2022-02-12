@@ -2,6 +2,9 @@
 
 @section('content')
   <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
+  <div class="row">
+    <h3>History Penjualan</h3>
+  </div>
 	<div class="row">
     <form action="/hst/pnj" method="post" enctype="multipart/form-data" class="form-horizontal">
       {{ csrf_field() }}
