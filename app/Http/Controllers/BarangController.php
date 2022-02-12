@@ -46,4 +46,40 @@ class BarangController extends Controller{
         $unit = Unit::all();
         return view('barang/persediaan', ['brg' => $brg, 'unit' => $unit]);
     }
+    public function load_namebrgpmb(Request $request){
+        $qnamebrg = $request->get('namebrgpmb');
+        $brg = Barang::where('name', 'LIKE', '%'.$qnamebrg.'%')->get();
+        $filterResult = array();
+        foreach ($brg as $b) {
+            $filterResult[] = $b->code_product.' - '.$b->name;
+        }
+        return response()->json($filterResult);
+    }
+    public function load_namebrgpnj(Request $request){
+        $qnamebrg = $request->get('namebrgpnj');
+        $brg = DB::table('price as a')->select('a.id','b.code_product','b.name','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->where('name', 'LIKE', '%'.$qnamebrg.'%')->whereRaw('a.quantity > 0 group by a.id_product')->orderBy('b.name','ASC')->get();
+        $filterResult = array();
+        foreach ($brg as $b) {
+            $filterResult[] = $b->code_product.' - '.$b->name;
+        }
+        return response()->json($filterResult);
+    }
+    public function load_namebrghpmb(Request $request){
+        $qnamebrg = $request->get('namebrghpmb');
+        $brg = Barang::where('name', 'LIKE', '%'.$qnamebrg.'%')->get();
+        $filterResult = array();
+        foreach ($brg as $b) {
+            $filterResult[] = $b->code_product.' - '.$b->name;
+        }
+        return response()->json($filterResult);
+    }
+    public function load_namebrghpnj(Request $request){
+        $qnamebrg = $request->get('namebrghpnj');
+        $brg = DB::table('price as a')->select('a.id','b.code_product','b.name','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->where('name', 'LIKE', '%'.$qnamebrg.'%')->whereRaw('a.quantity > 0 group by a.id_product')->orderBy('b.name','ASC')->get();
+        $filterResult = array();
+        foreach ($brg as $b) {
+            $filterResult[] = $b->code_product.' - '.$b->name;
+        }
+        return response()->json($filterResult);
+    }
 }

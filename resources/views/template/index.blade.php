@@ -132,6 +132,95 @@
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
         });
+        var namebrgpmb = "{{url('/brg/namebrgpmb')}}";
+        $('.namebrgpmb').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrgpmb, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrgpmb").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            $.ajax({
+                url: '/trs/pmb/tmbrg/' + a,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
+        var namebrgpnj = "{{url('/brg/namebrgpnj')}}";
+        $('.namebrgpnj').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrgpnj, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrgpnj").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            var b = $('.idcus').val();
+            $.ajax({
+                url: '/trs/pnj/tmbrg/'+a+'/'+b,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
+        var namebrghpmb = "{{url('/brg/namebrghpmb')}}";
+        $('.namebrghpmb').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrghpmb, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrghpmb").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            var b = $('.idpympmb').val();
+            var c = $('.idsplhpmb').val();
+            $.ajax({
+                url: '/hst/epmb/tmbrg/'+a+'/'+b+'/'+c,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
+        var namebrghpnj = "{{url('/brg/namebrghpnj')}}";
+        $('.namebrghpnj').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrghpnj, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrghpnj").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            var b = $('.idpympnj').val();
+            var c = $('.idcushpnj').val();
+            $.ajax({
+                url: '/hst/epnj/tmbrg/'+a+'/'+b+'/'+c,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
     </script>
     <script src="{{url('kamotoparts/kamotoparts.js')}}"></script>
     <script src="{{url('gentelella-master/build/js/custom.min.js')}}"></script>

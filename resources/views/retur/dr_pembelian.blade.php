@@ -3,6 +3,9 @@
 @section('content')
   <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
   <div class="row">
+    <h3>Retur Pembelian</h3>
+  </div>
+  <div class="row">
     <table id="tblic" class="table table-striped table-bordered" style="width: 100%">
       <thead>
         <tr>

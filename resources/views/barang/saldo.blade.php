@@ -1,6 +1,9 @@
 @extends('template.index')
 
 @section('content')
+  <div class="row">
+    <h3>Saldo Stok</h3>
+  </div>
 	<div class="row">
   	<table id="datatable" class="table table-striped table-bordered">
       <thead>

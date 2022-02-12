@@ -11,7 +11,8 @@ use App\Models\Transaksi;
 
 class ReturController extends Controller{
 	public function fr_penjualan(){
-        return view('retur/fpenjualan');
+		$hst = DB::table('payment as a')->select('a.id','a.created_at','a.invoice','a.due_date','a.total_payment','b.name as namecus','c.name as namests','d.name as namesls')->join('customer as b', 'a.id_customer', '=', 'b.id')->join('status as c', 'a.id_status', '=', 'c.id')->join('sales_user as d', 'a.id_salesuser', '=', 'd.id')->whereDate('a.created_at','=',date('Y-m-d'))->orderBy('a.created_at','ASC')->get();
+        return view('retur/fpenjualan', ['hst' => $hst]);
     }
     public function r_penjualan(Request $request){
         $tgl1 = date('Y-m-d', strtotime($request->tglhst1));
@@ -93,7 +94,8 @@ class ReturController extends Controller{
         return redirect('/rtr/drpnj/'.$request->idpym);
     }
     public function fr_pembelian(){
-        return view('retur/fpembelian');
+    	$hst = DB::table('purchases_payment as a')->select('a.id','a.created_at','a.invoice','a.due_date','a.total_payment','b.name','c.name as namests')->join('supplier as b', 'a.id_supplier', '=', 'b.id')->join('status as c', 'a.id_status', '=', 'c.id')->whereDate('a.created_at','=',date('Y-m-d'))->orderBy('a.created_at','ASC')->get();
+        return view('retur/fpembelian', ['hst' => $hst]);
     }
     public function r_pembelian(Request $request){
     	$tgl1 = date('Y-m-d', strtotime($request->tglhst1));

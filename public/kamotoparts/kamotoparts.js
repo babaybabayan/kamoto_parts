@@ -13,6 +13,8 @@ $('.dtlbtp').dataTable({
     "ordering": false
 });
 $('#datatable').DataTable({
+    "bPaginate": false,
+    bInfo: false,
     "ordering": false
 });
 $.ajaxSetup({
@@ -197,12 +199,12 @@ $(document).ready(function(){
                 var harfix;
                 var sumharfix = [];
                 for(i=0; i<data.length; i++){
-                    jmlp = data[i].selling*data[i].qtyp;
+                    jmlp = data[i].price*data[i].qtyp;
                     disco = data[i].disc/100;
                     har1 = jmlp * disco;
                     harfix = jmlp - har1;
                     sumharfix.push(harfix);
-                    var hrgpnjrp = data[i].selling;
+                    var hrgpnjrp = data[i].price;
                     var numstrhpnj = hrgpnjrp.toString(), sisahpnj = numstrhpnj.length % 3, rupiahpnj = numstrhpnj.substr(0, sisahpnj), ribuanhpnj = numstrhpnj.substr(sisahpnj).match(/\d{3}/g);
                     if (ribuanhpnj) {
                         separatorhpnj = sisahpnj ? '.' : '';
@@ -238,11 +240,9 @@ $(document).ready(function(){
             }
         });
     }
-    $('.smpnpnj').click(function(){
-        $('input:checkbox').removeAttr('checked');
-        $('.listbrg').modal('hide');
+    $('.namebrgpnj').change(function(){
         tampildatapenjualan();
-
+        $(this).val('');
     });
     $(function(){
         $(document).on('click','.delprcpnj',function(e){
@@ -340,6 +340,7 @@ $(document).ready(function(){
                 var harfix;
                 var sumharfix = [];
                 var o=[];
+                var berat;
                 for(i=0; i<data.length; i++){
                     jmlp = data[i].capital*data[i].qtyp;
                     disco = data[i].disc/100;
@@ -383,10 +384,9 @@ $(document).ready(function(){
             }
         });
     }
-    $('.smpnpmb').click(function(){
-        $('input:checkbox').removeAttr('checked');
-        $('.listbrgpmb').modal('hide');
+    $('.namebrgpmb').change(function(){
         tampildatapembelian();
+        $(this).val('');
     });
     $(function(){
         $(document).on('click','.delprcpmb',function(e){
@@ -492,19 +492,9 @@ $(document).ready(function(){
             }
         });
     }
-    $('.smpnhpnj').click(function(){
-        var formhpnj = document.brghstpnjform;
-        var dataStringhpnj = $(formhpnj).serialize();
-        $.ajax({
-            url: '/hst/epnj/tmbprc2',
-            type: 'post',
-            data: dataStringhpnj,
-            success: function(data){
-                $('input:checkbox').removeAttr('checked');
-                $('.listbrghstpnj').modal('hide');
-                tampildataepenjualan();
-            }
-        });
+    $('.namebrghpnj').change(function(){
+        tampildataepenjualan();
+        $(this).val('');
     });
     $(function(){
         $(document).on('click','.edthpnj',function(e){
@@ -542,11 +532,12 @@ $(document).ready(function(){
     });
     $('.smpnthpnj').click(function(){
         var vidpympnj = $('.idpympnj').val();
+        var vidcushpnj = $('.idcushpnj').val();
         var vsttlhpnj = $('.sttlhpnj').val();
         $.ajax({
             url: '/hst/epnj/inshtpnj',
             type: 'post',
-            data: {idpympnj: vidpympnj, sttlhpnj: vsttlhpnj},
+            data: {idpympnj: vidpympnj, sttlhpnj: vsttlhpnj, idcushpnj: vidcushpnj},
             success: function(data){
                 location.reload();
             }
@@ -621,19 +612,9 @@ $(document).ready(function(){
             }
         });
     }
-    $('.smpnhstpmb').click(function(){
-        var hpmbform = document.hstpmbform;
-        var hpmbdataString = $(hpmbform).serialize();
-        $.ajax({
-            url: '/hst/epmb/tmbprc2',
-            type: 'post',
-            data: hpmbdataString,
-            success: function(data){
-                $('input:checkbox').removeAttr('checked');
-                $('.listbrghstpmb').modal('hide');
-                tampildataepembelian();
-            }
-        });
+    $('.namebrghpmb').change(function(){
+        tampildataepembelian();
+        $(this).val('');
     });
     $(function(){
         $(document).on('click','.edthpmb',function(e){
@@ -683,6 +664,7 @@ $(document).ready(function(){
     });
     $('#tblic thead tr').clone(true).addClass('filters').appendTo('#tblic thead');
     var table = $('#tblic').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -718,12 +700,13 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 5 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
         }
     });
     $('#tblicdpnj thead tr').clone(true).addClass('filters').appendTo('#tblicdpnj thead');
     var table = $('#tblicdpnj').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -759,12 +742,13 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 11 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
         }
     });
     $('#tblicpmb thead tr').clone(true).addClass('filters').appendTo('#tblicpmb thead');
     var table = $('#tblicpmb').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -800,12 +784,13 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 4 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
         }
     });
     $('#tblicdpmb thead tr').clone(true).addClass('filters').appendTo('#tblicdpmb thead');
     var table = $('#tblicdpmb').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -841,12 +826,13 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 10 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
         }
     });
     $('#tblicrpnj thead tr').clone(true).addClass('filters').appendTo('#tblicrpnj thead');
     var table = $('#tblicrpnj').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -882,12 +868,13 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 5 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
         }
     });
     $('#tblicrpmb thead tr').clone(true).addClass('filters').appendTo('#tblicrpmb thead');
     var table = $('#tblicrpmb').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -923,7 +910,7 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 4 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
         }
     });
@@ -1052,6 +1039,7 @@ $(document).ready(function(){
     });
     $('#tblrptpnj thead tr').clone(true).addClass('filters').appendTo('#tblrptpnj thead');
     var table = $('#tblrptpnj').DataTable({
+        "bPaginate": false,
         ordering: false,
         dom: 'Bfrtip',
         buttons: ['csv'],
@@ -1096,10 +1084,10 @@ $(document).ready(function(){
                 return intVal(a) + intVal(b);
             }, 0 );
             $( api.column( 5 ).footer() ).html(
-                numformat(pageTotal) +' ('+ numformat(total) +' Total)'
+                numformat(pageTotal)
             );
             $( api.column( 10 ).footer() ).html(
-                numformat(pageTotal2) +' ('+ numformat(total2) +' Total)'
+                numformat(pageTotal2)
             );
         }
     });
@@ -1483,52 +1471,6 @@ function getdpnj(element){
         }
     })
 }
-function insbrgpnj(element){
-    const inputId = element.dataset.inputId;
-    $.ajax({
-        url: '/trs/pnj/tmbprc',
-        type: 'post',
-        data: { checked : inputId},
-        success: function(data){
-
-        }
-    })
-}
-function insbrgpmb(element){
-    const inputId = element.dataset.inputId;
-    $.ajax({
-        url: '/trs/pmb/tmbprc',
-        type: 'post',
-        data: { checked : inputId},
-        success: function(data){
-
-        }
-    })
-}
-function insbrghpnj(element){
-    const inputId = element.dataset.inputId;
-    var idpym = $('.idpympnj').val();
-    $.ajax({
-        url: '/hst/epnj/tmbprc',
-        type: 'post',
-        data: { checked : inputId, idpym : idpym },
-        success: function(data){
-
-        }
-    })
-}
-function insbrghpmb(element){
-    const inputId = element.dataset.inputId;
-    var idpym = $('.idpympmb').val();
-    $.ajax({
-        url: '/hst/epmb/tmbprc',
-        type: 'post',
-        data: { checked : inputId, idpym : idpym },
-        success: function(data){
-
-        }
-    })
-}
 function hpmbrf(element){
     const val = element.value;
     $('.mhjbpmb').val(formatRupiahx(val));
@@ -1562,6 +1504,16 @@ function setnoldpmb(element){
         var h = val;
     }
     $('.dpmb'+inputId).val(h);
+}
+function setnolbpmb(element){
+    const inputId = element.dataset.inputId;
+    const val = element.value;
+    if (val==0) {
+        var h = '';
+    }else{
+        var h = val;
+    }
+    $('.bpmb'+inputId).val(h);
 }
 function setnolqpnj(element){
     const inputId = element.dataset.inputId;

@@ -47,7 +47,7 @@ class CustomerController extends Controller{
         $cus = Customer::where('name', 'LIKE', '%'. $query.'%')->get();
         $filterResult = array();
         foreach ($cus as $c) {
-            $filterResult[] = $c->code_customer.' - '.$c->name;
+            $filterResult[] = $c->code_customer.' - '.$c->name.' - '.$c->city;
         }
         return response()->json($filterResult);
     }

@@ -7,6 +7,9 @@
       return $hasil_rupiah;
     }
   ?>
+  <div class="row">
+    <h3>Nilai Persediaan</h3>
+  </div>
 	<div class="row">
   	<table id="datatable" class="table table-striped table-bordered">
       <thead>
@@ -28,7 +31,7 @@
             <td><a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ $b->name }}</a></td>
             <td style="text-align: center"><a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ $b->nameu }}</a></td>
             <td style="text-align: center">
-              <a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ $sldstk = \App\Models\Barang_harga::where(['id_product' => $b->idb, 'id_supplier' => $b->id_supplier, 'capital' => $b->capital])->pluck('quantity')->sum() }}</a>
+              <a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ $b->quantity }}</a>
             </td>
             <td style="text-align: center;">
               <a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ date('d-m-Y', strtotime($b->created_at)) }}</a>

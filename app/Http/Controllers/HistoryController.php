@@ -24,30 +24,35 @@ class HistoryController extends Controller{
     }
     public function e_penjualan($id){
     	$pym = DB::table('payment as a')->select('a.created_at','a.due_date','a.invoice','b.name as namecus','c.name as namesls','a.id','b.id as idcus','c.id as idsls')->join('customer as b', 'a.id_customer', '=', 'b.id')->join('sales_user as c', 'a.id_salesuser', '=', 'c.id')->where('a.id','=',$id)->get();
-    	$brg = DB::table('price as a')->select('a.id','b.code_product','b.name','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->whereRaw('a.quantity > 0 group by a.id_product')->orderBy('b.name','ASC')->get();
-        return view('history/e_penjualan', ['brg' => $brg, 'pym' => $pym]);
+        return view('history/e_penjualan', ['pym' => $pym]);
     }
     public function t_penjualan($id){
-        $pnj = DB::table('price as a')->selectRaw('a.id,c.price,b.code_product,b.name,sum(c.quantity) AS qtyp,c.disc,c.id as idp,b.id as idb,d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.id_payment','=',$id)->groupBy('a.id_product')->orderBy('b.code_product','asc')->get();
+        $pnj = DB::table('price as a')->selectRaw('a.id,c.price,b.code_product,b.name,sum(c.quantity) AS qtyp,c.disc,c.id as idp,b.id as idb,d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.id_payment','=',$id)->groupBy('a.id_product')->orderBy('c.created_at','desc')->get();
     	return response()->json($pnj);
     }
-    public function tambah(Request $request){
-        $cbrg = DB::table('sales')->where('id_price','=',$request->checked)->where('id_payment','=',$request->idpym)->count();
-        $cbrg2 = DB::table('sales')->where('id_price','=',$request->checked)->where('id_payment','=',$request->idpym)->where('status','=',1)->count();
-        if ($cbrg==0) {
-            Sales::create([
-                'id_price' => $request->checked,
-                'id_payment' => $request->idpym,
-                'status' => 1
-            ]);
-        }elseif ($cbrg2!=0) {
-            DB::table('sales')->where('id_price','=',$request->checked)->where('id_payment','=',$request->idpym)->where('status','=',1)->delete();
+    public function tmbrgpnj($id,$idpym,$idcus){
+        $code = strtok($id, ' ');
+        $fill = DB::table('price as a')->select('a.id','a.id_product')->join('product_name as b', 'a.id_product', '=', 'b.id')->where('b.code_product', '=', $code)->where('a.quantity','>',0)->orderBy('a.id','ASC')->take(1)->get();
+        foreach ($fill as $f) {
+            $cbrg = DB::table('sales')->where('id_price','=',$f->id)->where('id_payment','=',$idpym)->count();
+            if ($cbrg==0) {
+                $price = DB::table('sales as a')->select('a.price')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$idcus)->where('c.id_product','=',$f->id_product)->count();
+                if ($price==0) {
+                    $sellinglast = 0;
+                }else{
+                    $price2 = DB::table('sales as a')->select('a.price')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$idcus)->where('c.id_product','=',$f->id_product)->orderBy('a.id','DESC')->take(1)->get();
+                    foreach ($price2 as $p2) {
+                        $sellinglast = $p2->price;
+                    }
+                }
+                Sales::create([
+                    'id_price' => $f->id,
+                    'id_payment' => $idpym,
+                    'price' => $sellinglast,
+                    'status' => 2
+                ]);
+            }
         }
-    }
-    public function tambah2(Request $request){
-        DB::table('sales')->where('id_payment','=',$request->idpympnj)->update([
-            'status'=>2
-        ]);
     }
     public function edthpnj($idpym,$idb){
         $epnj = DB::table('price as a')->selectRaw('a.id,c.price,b.code_product,b.name,sum(c.quantity) AS qtyp,c.disc,c.id as idp,b.id as idb,c.id_payment')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->where('c.id_payment','=',$idpym)->where('b.id','=',$idb)->get();
@@ -109,9 +114,12 @@ class HistoryController extends Controller{
                         $sls4->disc = $request->mdischpnj;
                         $sls4->save();
                     }
-                    DB::table('price')->where('id_product','=',$request->midbhpnj)->update([
-                        'selling'=>$hrgj
-                    ]);
+                    $jprice = DB::table('sales as a')->select('c.id')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$request->idcushpnj)->where('c.id_product','=',$request->midbhpnj)->get();
+                    foreach ($jprice as $jp) {
+                        DB::table('price')->where('id','=',$jp->id)->update([
+                            'selling'=>$hrgj
+                        ]);
+                    }
                     break;
                 }
             }
@@ -152,9 +160,12 @@ class HistoryController extends Controller{
                         $sls4->disc = $request->mdischpnj;
                         $sls4->save();
                     }
-                    DB::table('price')->where('id_product','=',$request->midbhpnj)->update([
-                        'selling'=>$hrgj
-                    ]);
+                    $jprice = DB::table('sales as a')->select('c.id')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$request->idcushpnj)->where('c.id_product','=',$request->midbhpnj)->get();
+                    foreach ($jprice as $jp) {
+                        DB::table('price')->where('id','=',$jp->id)->update([
+                            'selling'=>$hrgj
+                        ]);
+                    }
                     break;
                 }
             }
@@ -166,9 +177,12 @@ class HistoryController extends Controller{
                 $sls->disc = $request->mdischpnj;
                 $sls->save();
             }
-            DB::table('price')->where('id_product','=',$request->midbhpnj)->update([
-                'selling'=>$hrgj
-            ]);
+            $jprice = DB::table('sales as a')->select('c.id')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$request->idcushpnj)->where('c.id_product','=',$request->midbhpnj)->get();
+            foreach ($jprice as $jp) {
+                DB::table('price')->where('id','=',$jp->id)->update([
+                    'selling'=>$hrgj
+                ]);
+            }
         }
     }
     public function delhpnj($idpym,$idb){
@@ -203,12 +217,34 @@ class HistoryController extends Controller{
     }
     public function e_pembelian($id){
     	$pym = DB::table('purchases_payment as a')->select('a.created_at','a.due_date','a.invoice','b.name','a.id','b.id as idspl')->join('supplier as b', 'a.id_supplier', '=', 'b.id')->where('a.id','=',$id)->get();
-    	$brg = DB::table('product_name as a')->select('a.id','a.code_product','a.name')->orderBy('a.name')->get();
-        return view('history/e_pembelian', ['brg' => $brg, 'pym' => $pym]);
+        return view('history/e_pembelian', ['pym' => $pym]);
     }
     public function t_pembelian($id){
-        $pmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.id_payment','=',$id)->orderBy('b.name','asc')->get();
+        $pmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.id_payment','=',$id)->orderBy('c.created_at','desc')->get();
         return response()->json($pmb);
+    }
+    public function tmbrgpmb($id,$idpym,$idspl){
+        $code = strtok($id, ' ');
+        $fill = DB::table('product_name')->where('code_product', $code)->get();
+        foreach ($fill as $f) {
+            $cbrg = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('a.id_payment','=',$idpym)->where('b.id_product','=',$f->id)->count();
+            if ($cbrg==0) {
+                Barang_harga::create([
+                    'id_product' => $f->id,
+                    'id_supplier' => $idspl
+                ]);
+                $hrg = Barang_harga::orderBy('id', 'DESC')->take(1)->get();
+                foreach ($hrg as $h) {
+                    $idhrg = $h['id'];
+                }
+                Purchases::create([
+                    'id_price' => $idhrg,
+                    'id_payment' => $idpym,
+                    'status' => 2
+                ]);
+            }
+        }
+        
     }
     public function edthpmb($id){
         $epmb = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.disc','c.quantity as qtyp','c.id as idp')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->where('c.id','=',$id)->get();
@@ -224,7 +260,6 @@ class HistoryController extends Controller{
             $hrgb = str_replace(".", "", $request->mhjbpmb);
             $hrg->capital = $hrgb;
             $hrg->quantity = $hrg->quantity+$slsh;
-            $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
         }elseif ($request->mqtyhpmb<$prc->quantity) {
@@ -235,7 +270,6 @@ class HistoryController extends Controller{
             $hrgb = str_replace(".", "", $request->mhjbpmb);
             $hrg->capital = $hrgb;
             $hrg->quantity = $hrg->quantity-$slsh;
-            $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
         }else{
@@ -243,41 +277,9 @@ class HistoryController extends Controller{
             $hrg = Barang_harga::find($prc->id_price);
             $hrgb = str_replace(".", "", $request->mhjbpmb);
             $hrg->capital = $hrgb;
-            $hrg->weight = $request->mwghpmb;
             $hrg->save();
             $prc->save();
         }
-    }
-    public function tambahpmb(Request $request){
-        $cbrg = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('a.id_payment','=',$request->idpym)->where('b.id_product','=',$request->checked)->count();
-        $cbrg2 = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('a.id_payment','=',$request->idpym)->where('b.id_product','=',$request->checked)->where('a.status','=',1)->count();
-        if ($cbrg==0) {
-            Barang_harga::create([
-                'id_product' => $request->checked
-            ]);
-            $hrg = Barang_harga::orderBy('id', 'DESC')->take(1)->get();
-            foreach ($hrg as $h) {
-                $idhrg = $h['id'];
-            }
-            Purchases::create([
-                'id_price' => $idhrg,
-                'id_payment' => $request->idpym,
-                'status' => 1
-            ]);
-        }elseif ($cbrg2!=0) {
-            $id = DB::table('purchases as a')->select('a.id','b.id as idh')->join('price as b', 'a.id_price', '=', 'b.id')->where('b.id_product','=',$request->checked)->where('a.id_payment','=',$request->idpym)->where('a.status','=',1)->get();
-            foreach ($id as $i) {
-                $hrg2 = Barang_harga::find($i->idh);
-                $hrg2->delete();
-                $prc = Purchases::find($i->id);
-                $prc->delete();
-            }
-        }
-    }
-    public function tambahpmb2(Request $request){
-        DB::table('purchases')->where('id_payment','=',$request->idpympmb)->update([
-            'status'=>2
-        ]);
     }
     public function delhpmb($id){
         $prc = Purchases::find($id);
@@ -291,7 +293,8 @@ class HistoryController extends Controller{
         $prc->save();
     }
     public function fdh_penjualan(){
-        return view('history/fdpenjualan');
+        $hst = DB::table('sales as a')->selectRaw('b.created_at,b.invoice,b.due_date,b.total_payment,f.name as namecus,g.name as namests,h.name as namesls,a.disc,sum(a.quantity) as qty,a.price,d.code_product,d.name as namebrg,e.name as nameu')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->join('product_name as d', 'c.id_product', '=', 'd.id')->join('unit as e', 'd.id_unit', '=', 'e.id')->join('customer as f', 'b.id_customer', '=', 'f.id')->join('status as g', 'b.id_status', '=', 'g.id')->join('sales_user as h', 'b.id_salesuser', '=', 'h.id')->whereDate('b.created_at','=',date('Y-m-d'))->groupBy('b.id','d.id')->orderBy('b.created_at','asc')->orderBy('d.name','asc')->get();
+        return view('history/fdpenjualan', ['hst' => $hst]);
     }
     public function dh_penjualan(Request $request){
         $tgl1 = date('Y-m-d', strtotime($request->tglhst1));
@@ -300,7 +303,8 @@ class HistoryController extends Controller{
         return view('history/dpenjualan', ['hst' => $hst]);
     }
     public function fdh_pembelian(){
-        return view('history/fdpembelian');
+        $hst = DB::table('purchases as a')->select('g.name as namests','b.due_date','b.invoice','b.created_at','e.name as namespl','d.code_product','d.name as namebrg','f.name as nameu','a.quantity','c.capital','a.disc')->join('purchases_payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->join('product_name as d', 'c.id_product', '=', 'd.id')->join('supplier as e', 'c.id_supplier', '=', 'e.id')->join('unit as f', 'd.id_unit', '=', 'f.id')->join('status as g', 'b.id_status', '=', 'g.id')->whereDate('b.created_at','=',date('Y-m-d'))->orderBy('b.created_at','ASC')->orderBy('d.name','ASC')->get();
+        return view('history/fdpembelian', ['hst' => $hst]);
     }
     public function dh_pembelian(Request $request){
         $tgl1 = date('Y-m-d', strtotime($request->tglhst1));

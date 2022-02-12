@@ -2,6 +2,9 @@
 
 @section('content')
   <div class="row">
+    <h3>Transaksi Penjualan</h3>
+  </div>
+  <div class="row">
     <div class="col-md-2">
       <input type="text" class="form-control has-feedback-left tglpnj1" value="{{date('d-m-Y')}}" readonly>
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -51,66 +54,9 @@
   </div>
   <br/>
   <div class="row">
-    <div class="col-md-7" style="text-align: left">
-      <a href="#" data-toggle="modal" data-target=".listbrg"><h5><i><u>Klik disini untuk membuka list Barang</u></i></h5></a>
-    </div>
-    <div class="modal fade listbrg" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">List Barang</h4>
-          </div>
-          <div class="modal-body">
-          <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal myform" id="myform" name="myform">
-            {{ csrf_field() }}
-            <table class="table table-striped table-bordered dtlbtp" style="width: 875px">
-              <thead>
-                <tr>
-                  <th style="width: 5px"></th>
-                  <th style="width: 150px; text-align: center">Kode</th>
-                  <th style="width: 400px; text-align: center">Nama</th>
-                  <th style="width: 100px; text-align: center">Stok</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($brg as $b)
-                  <tr>
-                    <td><input type="checkbox" data-input-id="{{ $b->id }}" onclick="insbrgpnj(this)"></td>
-                    <td>{{ $b->code_product }}</td>
-                    <td>{{ $b->name }}</td>
-                    <td style="text-align: center">{{ $sldstk = \App\Models\Barang_harga::where(['id_product' => $b->idb])->pluck('quantity')->sum() }}</td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <a href="#" class="btn btn-primary smpnpnj">OK</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade listcus" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="myModalLabel">List Customer</h4>
-          </div>
-          
-            <div class="modal-body">
-              
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-              <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
-          
-        </div>
-      </div>
+    <div class="col-md-5">
+      <input type="text" class="form-control has-feedback-left namebrgpnj" placeholder="Pilih Barang" autocomplete="off">
+      <span class="fa fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
     </div>
   </div>
   <br/>

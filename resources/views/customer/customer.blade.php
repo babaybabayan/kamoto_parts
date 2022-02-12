@@ -1,13 +1,18 @@
 @extends('template.index')
 
 @section('content')
-	<div class="row">
-    <div class="col-md-11">
-  		<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah"><span class="fa fa-plus-square"></span></button>
-  		<div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="row">
+    <div style="float: left;">
+      <h3>Master Customer</h3>
+    </div>
+    <div style="float: right;">
+      <div class="col-md-11">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah"><span class="fa fa-plus-square"></span></button>
+      </div>
+      <div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
-  					<div class="modal-header">
+            <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
               <h4 class="modal-title" id="myModalLabel">Tambah Customer</h4>
             </div>
@@ -17,7 +22,7 @@
                 <span id="elorcus"></span><br/>
                 <label for="id">Kode</label>
                 <input type="text" id="idcus" class="form-control" name="id" autocomplete="off" required />
-  							<label for="nama">Nama</label>
+                <label for="nama">Nama</label>
                 <input type="text" id="namacus" class="form-control" name="nama" autocomplete="off" required />
                 <label for="alamat">Alamat</label>
                 <input type="text" id="alamatcus" class="form-control" name="alamat" autocomplete="off" required />
@@ -31,11 +36,12 @@
                 <a href="#" class="btn btn-primary smpncus">Simpan</a>
               </div>
             </form>
-  				</div>
+          </div>
         </div>
       </div>
     </div>
-    
+  </div>
+	<div class="row">
   		<table id="datatable" class="table table-striped table-bordered" style="width: 100%">
         <thead>
           <tr>
