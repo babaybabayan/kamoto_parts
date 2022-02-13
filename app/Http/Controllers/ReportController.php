@@ -25,6 +25,6 @@ class ReportController extends Controller{
             $sls = Sales_User::find($request->idsls);
             return view('report/hpenjualan', ['rpt' => $rpt, 'tgl1' => $tglr1, 'tgl2' => $tglr2, 'sls' => $sls]);
         }
-    	
+
     }
 }
