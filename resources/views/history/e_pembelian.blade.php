@@ -25,6 +25,9 @@
         @endforeach
         <input type="hidden" class="idpympmb" name="idpympmb" value="{{ $idpym }}">
         <input type="hidden" class="idsplhpmb" name="idsplhpmb" value="{{ $idspl }}">
+        <input type="hidden" class="tglaw" value="{{ $tglaw }}">
+        <input type="hidden" class="tglak" value="{{ $tglak }}">
+        <input type="hidden" class="tgl" value="{{ date('Y-m-d') }}">
         <div class="col-md-2">
             <input type="text" class="form-control has-feedback-left" value="{{ date('d-m-Y', strtotime($tgl3)) }}" readonly>
             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -64,15 +67,15 @@
             <table class="table table-bordered" id="tbhstpnj" style="width: 100%">
                 <thead>
                     <tr>
-                        <th style="width: 9%; text-align: center">Kode Barang</th>
-                        <th style="width: 28%; text-align: center">Nama Barang</th>
-                        <th style="width: 5%; text-align: center">Satuan</th>
+                        <th style="width: 5%; text-align: center">No.</th>
+                        <th style="width: 10%; text-align: center">Kode Barang</th>
+                        <th style="width: 30%; text-align: center">Nama Barang</th>
+                        <th style="width: 10%; text-align: center">Satuan</th>
                         <th style="width: 10%; text-align: center">Qty</th>
                         <th style="width: 10%; text-align: center">Harga Beli</th>
                         <th style="width: 10%; text-align: center">Discount (%)</th>
                         <th style="width: 10%; text-align: center">Grand Total</th>
-                        <th style="width: 4%; text-align: center"></th>
-                        <th style="width: 4%; text-align: center"></th>
+                        <th style="width: 5%; text-align: center"></th>
                     </tr>
                 </thead>
                 <tbody id="showdatahpmb">
@@ -81,24 +84,17 @@
             </table>
         </form>
     </div>
-    <div class="modal fade medthpmb" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                    <a href="#" class="btn btn-primary smpnmehpmb">OK</a>
-                </div>
-
+    <div class="modal fade hrgmdlhpmb" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          </div>
+            <div class="modal-body">
+              
             </div>
         </div>
+      </div>
     </div>
     <div class="row">
         <div class="col-md-10">

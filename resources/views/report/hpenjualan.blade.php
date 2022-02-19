@@ -33,18 +33,13 @@
   	<table id="tblrptpnj" class="table table-striped table-bordered" style="width: 100%">
       <thead>
         <tr>
-          <th style="text-align: center; width: 7%">Tanggal</th>
-          <th style="text-align: center; width: 7%">No. Faktur</th>
-          <th style="text-align: center; width: 7%">Nama Customer</th>
-          <th style="text-align: center; width: 7%">Kode Barang</th>
-          <th style="text-align: center; width: 23%">Nama Barang</th>
-          <th style="text-align: center; width: 7%">Satuan</th>
-          <th style="text-align: center; width: 7%">Jumlah</th>
-          <th style="text-align: center; width: 7%">Harga Beli</th>
-          <th style="text-align: center; width: 7%">Harga Jual</th>
-          <th style="text-align: center; width: 7%">Diskon%</th>
-          <th style="text-align: center; width: 7%">Sub Total</th>
-          <th style="text-align: center; width: 7%">Bersih</th>
+          <th style="text-align: center; width: 14%">No. Faktur</th>
+          <th style="text-align: center; width: 14%">Tanggal</th>
+          <th style="text-align: center; width: 20%">Nama Customer</th>
+          <th style="text-align: center; width: 13%">Total</th>
+          <th style="text-align: center; width: 13%">Modal</th>
+          <th style="text-align: center; width: 13%">Profit</th>
+          <th style="text-align: center; width: 13%">Persen (%)</th>
         </tr>
       </thead>
   		<tbody>
@@ -56,39 +51,28 @@
         ?>
         @foreach($rpt as $h)
           <?php
-            if ($h->disc!=0) {
-              $disc=$h->disc;
-            }else{
-              $disc='';
-            }
-            $jml=$h->qty*$h->price;
-            $dis=($h->disc/100)*$jml;
-            $gt=$jml-$dis;
-            $hb=$h->capital*$h->qty;
-            $brs=$gt-$hb;
+            $v1 = $h->total_payment-$h->mdl;
+            $v2 = $v1/$h->mdl;
+            $v3 = $v2*100;
           ?>
           <tr>
-            <td style="text-align: center">{{ date('d-m-Y', strtotime($h->created_at)) }}</td>
             <td style="text-align: center">{{ $h->invoice }}</td>
+            <td style="text-align: center">{{ date('d-m-Y', strtotime($h->created_at)) }}</td>   
             <td>{{ $h->namecus }}</td>
-            <td>{{ $h->code_product }}</td>
-            <td>{{ $h->namebrg }}</td>
-            <td style="text-align: center">{{ $h->nameu }}</td>
-            <td style="text-align: center">{{ $h->qty }}</td>
-            <td style="text-align: right">{{ rupiah($h->capital) }}</td>
-            <td style="text-align: right">{{ rupiah($h->price) }}</td>
-            <td style="text-align: center">{{ $disc }}</td>
-            <td style="text-align: right">{{ $gt }}</td>
-            <td style="text-align: right">{{ $brs }}</td>
+            <td style="text-align: right">{{ $h->total_payment }}</td>
+            <td style="text-align: right">{{ $h->mdl }}</td>
+            <td style="text-align: right">{{ $h->total_payment-$h->mdl; }}</td>
+            <td style="text-align: right">{{ round($v3) }} %</td>
           </tr>
         @endforeach
       </tbody>
       <tfoot>
         <tr>
-          <th colspan="5" style="text-align:right">Total Keseluruhan :</th>
-          <th colspan="3" style="text-align: right;"></th>
-          <th colspan="2" style="text-align: right;">Total Bersih :</th>
-          <th colspan="2" style="text-align: right;"></th>
+          <th colspan="3" style="text-align:right">TOTAL</th>
+          <th style="text-align: right;"></th>
+          <th style="text-align: right;"></th>
+          <th style="text-align: right;"></th>
+          <th style="text-align: right;"></th>
         </tr>
       </tfoot>
     </table>

@@ -27,9 +27,9 @@
                 <label for="alamat">Alamat</label>
                 <input type="text" id="alamatspl" class="form-control" name="alamat" autocomplete="off" required />
                 <label for="city">Kota</label>
-                <input type="text" id="cityspl" class="form-control" name="city" autocomplete="off" required />
+                <input type="text" id="cityspl" class="form-control" name="city" autocomplete="off">
                 <label for="telepon">Telepon</label>
-                <input type="text" id="teleponspl" class="form-control" name="telepon" autocomplete="off" required />
+                <input type="text" id="teleponspl" class="form-control" name="telepon" autocomplete="off">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>

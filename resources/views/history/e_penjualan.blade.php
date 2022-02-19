@@ -23,6 +23,9 @@
     @endforeach
   <input type="hidden" class="idpympnj" name="idpympnj" value="{{$idpym}}">
   <input type="hidden" class="idcushpnj" name="idcushpnj" value="{{$idcus}}">
+  <input type="hidden" class="tglaw" value="{{$tglaw}}">
+  <input type="hidden" class="tglak" value="{{$tglak}}">
+  <input type="hidden" class="tgl" value="{{date('Y-m-d')}}">
   <div class="row">
     <h3>History Penjualan</h3>
   </div>
@@ -33,7 +36,7 @@
     </div>
     <div class="col-md-1"><input type="text" class="form-control tmpo" value="{{$hari}}" readonly></div>
     <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left tgltmpo" value="{{date('d-m-Y', strtotime($tgl4))}}" readonly>
+      <input type="text" class="form-control has-feedback-left tgltmpo tanggal" value="{{date('d-m-Y', strtotime($tgl4))}}">
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
     </div>
   </div>
@@ -71,14 +74,14 @@
     <table class="table table-bordered" id="tblpnjhst" style="width: 100%">
       <thead>
         <tr>
+          <th style="width: 5%; text-align: center;">No.</th>
           <th style="width: 10%; text-align: center">Kode Barang</th>
           <th style="width: 30%; text-align: center">Nama Barang</th>
           <th style="width: 10%; text-align: center">Satuan</th>
           <th style="width: 10%; text-align: center">Qty</th>
           <th style="width: 10%; text-align: center">Harga Jual</th>
-          <th style="width: 10%; text-align: center; text-align: center">Discount(%)</th>
+          <th style="width: 10%; text-align: center">Discount(%)</th>
           <th style="width: 10%; text-align: center">Grand Total</th>
-          <th style="width: 5%; text-align: center"></th>
           <th style="width: 5%; text-align: center"></th>
         </tr>
       </thead>
@@ -88,7 +91,7 @@
     </table>
     </form>
   </div>
-  <div class="modal fade medthpnj" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade hrgmdlhpnj" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
@@ -97,11 +100,6 @@
             <div class="modal-body">
               
             </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-              <a href="#" class="btn btn-primary smpnmehpnj">OK</a>
-            </div>
-            
         </div>
       </div>
     </div>

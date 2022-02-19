@@ -31,6 +31,8 @@
                                 <input type="text" id="nama" class="form-control" name="nama" autocomplete="off">
                                 <label for="weight">Berat</label>
                                 <input type="text" id="weight" class="form-control" name="weight" autocomplete="off">
+                                <label for="defprice">Harga Umum</label>
+                                <input type="text" id="defprice" class="form-control defprice" name="defprice" autocomplete="off" onkeyup="gethutbrg(this)">
                                 <label for="unit">Satuan</label>
                                 <select class="form-control" name="unit">
                                     @foreach ($unit as $u)
@@ -52,14 +54,21 @@
         <table id="datatable" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th style="text-align: center; width: 18%">Kode</th>
-                    <th style="text-align: center; width: 29%">Nama</th>
-                    <th style="text-align: center; width: 10%">Berat</th>
+                    <th style="text-align: center; width: 15%">Kode</th>
+                    <th style="text-align: center; width: 35%">Nama</th>
+                    <th style="text-align: center; width: 15%">Berat</th>
+                    <th style="text-align: center; width: 15%">Harga Umum</th>
                     <th style="text-align: center; width: 10%">Satuan</th>
-                    <th style="text-align: center; width: 8%"></th>
+                    <th style="text-align: center; width: 10%"></th>
                 </tr>
             </thead>
             <tbody>
+                <?php
+                  function rupiah($angka){
+                    $hasil_rupiah = number_format($angka,0,',',',');
+                    return $hasil_rupiah;
+                  }
+                ?>
                 @foreach ($brg as $b)
                     <tr>
                         <td><a href="#" data-toggle="modal"
@@ -67,6 +76,7 @@
                         <td><a href="#" data-toggle="modal" data-target=".hst{{ $b->idb }}">{{ $b->name }}</a>
                         </td>
                         <td><a href="#" data-toggle="modal" data-target=".hst{{ $b->idb }}">{{ $b->weight }}</a>
+                        <td style="text-align: right"><a href="#" data-toggle="modal" data-target=".hst{{ $b->idb }}">{{ rupiah($b->def_price) }}</a>
                         </td>
                         <td style="text-align: center"><a href="#" data-toggle="modal"
                                 data-target=".hst{{ $b->idb }}">{{ $b->nameu }}</a></td>
@@ -98,8 +108,11 @@
                                         <input type="text" id="unama" class="form-control" name="unama"
                                             value="{{ $b->name }}" autocomplete="off">
                                         <label for="idweight">Berat</label>
-                                        <input type="text" id="idweight" class="form-control" name="idweight"
-                                            value="{{ $b->weight }}" autocomplete="off">
+                                        <input type="text" id="idweight" class="form-control idweight" name="idweight"
+                                            value="{{ $b->weight }}" onclick="setnolwgbrg(this)" autocomplete="off">
+                                        <label for="iddefprice">Harga Umum</label>
+                                        <input type="text" id="iddefprice" class="form-control iddefprice" name="iddefprice"
+                                            value="{{ $b->def_price }}" onclick="setnolhubrg(this)" onkeyup="gethubrg(this)" autocomplete="off">
                                         <label for="uunit">Satuan</label>
                                         <select class="form-control" name="uunit">
                                             <option value="{{ $b->idu }}">{{ $b->nameu }}</option>

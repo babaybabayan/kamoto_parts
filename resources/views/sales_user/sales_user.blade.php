@@ -25,7 +25,7 @@
                 <label for="nama">Nama</label>
                 <input type="text" id="namasls" class="form-control" name="nama" autocomplete="off" required />
                 <label for="telepon">Telepon</label>
-                <input type="text" id="teleponsls" class="form-control" name="telepon" autocomplete="off" required />
+                <input type="text" id="teleponsls" class="form-control" name="telepon" autocomplete="off">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>

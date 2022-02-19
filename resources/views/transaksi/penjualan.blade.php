@@ -55,7 +55,7 @@
   <br/>
   <div class="row">
     <div class="col-md-5">
-      <input type="text" class="form-control has-feedback-left namebrgpnj" placeholder="Pilih Barang" autocomplete="off">
+      <input type="text" class="form-control has-feedback-left namebrgpnj" id="namebrgpnj" placeholder="Pilih Barang" autocomplete="off" disabled>
       <span class="fa fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
     </div>
   </div>
@@ -70,14 +70,15 @@
     <table class="table table-bordered" id="tblpnj" style="width: 100%">
       <thead>
         <tr>
+          <th style="width: 5%; text-align: center">No.</th>
           <th style="width: 10%; text-align: center">Kode Barang</th>
-          <th style="width: 32%; text-align: center">Nama Barang</th>
-          <th style="width: 8%; text-align: center">Satuan</th>
+          <th style="width: 30%; text-align: center">Nama Barang</th>
+          <th style="width: 10%; text-align: center">Satuan</th>
           <th style="width: 10%; text-align: center">Qty</th>
           <th style="width: 10%; text-align: center">Harga Jual</th>
-          <th style="width: 10%; text-align: center; text-align: center">Discount</th>
+          <th style="width: 10%; text-align: center">Discount</th>
           <th style="width: 10%; text-align: center">Grand Total</th>
-          <th style="width: 6%; text-align: center"></th>
+          <th style="width: 5%; text-align: center"></th>
         </tr>
       </thead>
       <tbody id="showdata">
@@ -86,6 +87,18 @@
     </table>
     </form>
   </div>
+  <div class="modal fade hrgmdlpnj" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          </div>
+            <div class="modal-body">
+              
+            </div>
+        </div>
+      </div>
+    </div>
   <div class="row">
     <div class="col-md-1">
       <div><a href="#" class="btn btn-primary smpntpnj">SIMPAN</a></div>
