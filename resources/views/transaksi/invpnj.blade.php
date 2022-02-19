@@ -39,7 +39,7 @@
         <div style="float: right; width: 56%;"><b><font size="14pt">Invoice</font></b></div>
       </div>
       <br>
-      <div><b><font size="12pt">KAMOTO PARTS HP/WA-0821.2008.6518</font></b></div>
+      <div><b><font size="12pt">KAMOTO PARTS HP/WA-0899.7289.252</font></b></div>
       <div style="border: 1px solid #000000;">
         <table style="width: 100%">
           <tr>
