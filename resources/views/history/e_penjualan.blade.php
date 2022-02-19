@@ -37,7 +37,7 @@
     </div>
     <div class="col-md-1"><input type="text" class="form-control htmpo" onkeyup="htempo()" value="{{$hari}}"></div>
     <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left htgltmpo" value="{{date('d-m-Y', strtotime($tgl4))}}" readonly>
+      <input type="text" class="form-control has-feedback-left tgltmpo tanggal" value="{{date('d-m-Y', strtotime($tgl4))}}">
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
     </div>
   </div>

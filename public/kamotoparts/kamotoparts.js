@@ -145,7 +145,6 @@ $(document).ready(function(){
             $("#smpnspl").attr("disabled", false);
         }else if(c==""){
             $("#elorspl").html('Alamat Harus Diisi');
-            $("#smpnspl").attr("disabled", false);
         }else{
             $.ajax({
                 url: '/spl/tmb',
@@ -177,7 +176,6 @@ $(document).ready(function(){
             $("#smpncus").attr("disabled", false);
         }else if(c==""){
             $("#elorcus").html('Alamat Harus Diisi');
-            $("#smpncus").attr("disabled", false);
         }else{
             $.ajax({
                 url: '/cus/tmb',
@@ -205,7 +203,6 @@ $(document).ready(function(){
             $("#smpnsls").attr("disabled", false);
         }else if(b==""){
             $("#elorsls").html('Nama Harus Diisi');
-            $("#smpnsls").attr("disabled", false);
         }else{
             $.ajax({
                 url: '/sls/tmb',
@@ -643,7 +640,7 @@ $(document).ready(function(){
         var vtglaw = $('.tglaw').val();
         var vtglak = $('.tglak').val();
         var vtgl = $('.tgl').val();
-        var vduedate = $('.htgltmpo').val();
+        var vduedate = $('.tgltmpo').val();
         $.ajax({
             url: '/hst/epnj/inshtpnj',
             type: 'post',
@@ -665,7 +662,7 @@ $(document).ready(function(){
         var vtglaw = $('.tglaw').val();
         var vtglak = $('.tglak').val();
         var vtgl = $('.tgl').val();
-        var vduedate = $('.htgltmpo').val();
+        var vduedate = $('.tgltmpo').val();
         $.ajax({
             url: '/hst/epnj/inshtpnj',
             type: 'post',
@@ -787,7 +784,6 @@ $(document).ready(function(){
         var vtglaw = $('.tglaw').val();
         var vtglak = $('.tglak').val();
         var vtgl = $('.tgl').val();
-        var vduedate = $('.htgltmpopmb').val();
         $.ajax({
             url: '/hst/epmb/inshtpmb',
             type: 'post',

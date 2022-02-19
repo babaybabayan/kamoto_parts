@@ -248,7 +248,7 @@ class HistoryController extends Controller{
             }
         }
         $sls = Transaksi::find($request->idpympnj);
-        if (date('Y-m-d', strtotime($sls->created_at))!=date('Y-m-d', strtotime($request->duedate))) {
+        if ($sls->due_date!=date('Y-m-d', strtotime($request->duedate))) {
             $sts=2;
         }else{
             $sts=1;
@@ -397,13 +397,6 @@ class HistoryController extends Controller{
             }   
         }
         $pym = PurchasesPayment::find($request->idpympmb);
-        if (date('Y-m-d', strtotime($pym->created_at))!=date('Y-m-d', strtotime($request->duedate))) {
-            $sts=2;
-        }else{
-            $sts=1;
-        }
-        $pym->due_date = date('Y-m-d', strtotime($request->duedate));
-        $pym->id_status = $sts;
         $pym->total_payment = $request->sttlhpmb;
         $pym->save();
         DB::table('h_purchases')->truncate();
