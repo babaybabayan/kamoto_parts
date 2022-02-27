@@ -79,6 +79,7 @@
                 success: function(data) {
                     if (data.success == true) {
                         $(".idcus").val(data.info);
+                        document.getElementById('namebrgpnj').disabled = false;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {}
@@ -127,6 +128,7 @@
                 success: function(data) {
                     if (data.success == true) {
                         $(".idsplpmb").val(data.info);
+                        document.getElementById('namebrgpmb').disabled = false;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {}
@@ -219,6 +221,31 @@
                 success: function(data) {
                     
                 },
+            });
+        });
+        var nameslsrpt = "{{url('/sls/nameslsrpt')}}";
+        $('.nameslsrpt').typeahead({
+            source: function (query, process){
+                return $.get(nameslsrpt, {
+                    query: query
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".nameslsrpt").change(function() {
+            $.ajax({
+                url: '/sls/getidsls/' + $(this).val(),
+                type: 'get',
+                data: {},
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success == true) {
+                        $(".idslsrpt").val(data.info);
+                        document.getElementById('crptpnj').disabled = false;
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {}
             });
         });
     </script>

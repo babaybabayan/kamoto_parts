@@ -18,7 +18,7 @@ class TransaksiController extends Controller{
         return view('transaksi/penjualan', ['ctrs' => $jmltrs]);
     }
     public function data_penjualan(){
-    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','c.price')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('c.created_at','desc')->get();
+    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','c.price','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('c.created_at','desc')->get();
     	return response()->json($pnj);
     }
     public function insbrgpnj($id,$idcus){
@@ -61,6 +61,16 @@ class TransaksiController extends Controller{
         $prc = Sales::find($request->id);
         $prc->disc = $request->dis;
         $prc->save();
+    }
+    public function hrgmpnj($ids,$idb,$idcus){
+        $hst = DB::table('sales as a')->select('b.created_at','a.price','a.id')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('c.id_product','=',$idb)->where('b.id_customer', '=', $idcus)->groupBy('b.id')->orderBy('b.created_at','DESC')->get();
+        return view('transaksi/hrgmpnj', ['hsthrg' => $hst,'ids' => $ids]);
+    }
+    public function edthrgmpnj($idh,$ids){
+        $sls = Sales::find($idh);
+        $sls2 = Sales::find($ids);
+        $sls2->price = $sls->price;
+        $sls2->save();
     }
     public function delprc($id){
         $prc = Sales::find($id);
@@ -152,7 +162,7 @@ class TransaksiController extends Controller{
         return view('transaksi/pembelian');
     }
     public function data_pembelian(){
-        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('c.created_at','desc')->get();
+        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('c.created_at','desc')->get();
         return response()->json($pnj);
     }
     public function insbrg($id){
@@ -194,6 +204,18 @@ class TransaksiController extends Controller{
         $prc = Purchases::find($request->id);
         $prc->disc = $request->dis;
         $prc->save();
+    }
+    public function hrgmpmb($idp,$idb,$idspl){
+        $hst = DB::table('purchases as a')->select('b.created_at','c.capital','a.id')->join('purchases_payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('c.id_product','=',$idb)->where('b.id_supplier', '=', $idspl)->orderBy('b.created_at','DESC')->get();
+        return view('transaksi/hrgmpmb', ['hsthrg' => $hst,'idp' => $idp]);
+    }
+    public function edthrgmpmb($idh,$idp){
+        $prc = Purchases::find($idh);
+        $hrg = Barang_harga::find($prc->id_price);
+        $prc2 = Purchases::find($idp);
+        $hrg2 = Barang_harga::find($prc2->id_price);
+        $hrg2->capital = $hrg->capital;
+        $hrg2->save();
     }
     public function brtpmb(Request $request){
         $prc = Purchases::find($request->id);

@@ -6,7 +6,7 @@
     <h3>History Pembelian</h3>
   </div>
 	<div class="row">
-    <form action="/hst/pmb" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <form action="/hst/rpmb" method="post" enctype="multipart/form-data" class="form-horizontal">
       {{ csrf_field() }}
       <div class="col-md-2">
         <input type="text" class="form-control has-feedback-left tanggal" name="tglhst1" placeholder="{{date('d-m-Y')}}" required autocomplete="off">
@@ -35,6 +35,9 @@
         </tr>
       </thead>
       <tbody>
+        <?php
+          $tgl = date('Y-m-d');
+        ?>
         @foreach($hst as $h)
           <?php
             if ($h->namests=='Cash') {
@@ -50,7 +53,7 @@
             <td>{{ $h->name }}</td>
             <td style="text-align: right">{{ $h->total_payment }}</td>
             <td style="text-align: center">
-              <a href="/hst/epmb/{{ $h->id }}"><span class="fa fa-edit"></span></a>
+              <a href="/hst/epmb/{{ $h->id }}/{{ $tgl }}/{{ $tgl }}"><span class="fa fa-edit"></span></a>
             </td>
           </tr>
         @endforeach

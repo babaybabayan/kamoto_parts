@@ -15,10 +15,15 @@ class SalesUserController extends Controller{
     public function tambah(Request $request){
     	$cdcus = DB::table('sales_user')->where('code_sales', $request->id)->count();
         if ($cdcus == 0) {
+            if ($request->telepon=='') {
+                $telp='-';
+            }else{
+                $telp=$request->telepon;
+            }
             Sales_user::create([
 	            'code_sales' => $request->id,
 	            'name' => $request->nama,
-	            'telp' => $request->telepon
+	            'telp' => $telp
 	        ]);
         }
         return Response::json(['success'=>true, 'info'=>$cdcus]);
@@ -49,5 +54,14 @@ class SalesUserController extends Controller{
         $code = strtok($id, ' ');
         $fill = DB::table('sales_user')->where('code_sales', $code)->pluck('id');
         return Response::json(['success'=>true, 'info'=>$fill]);
+    }
+    public function load_slsrpt(Request $request){
+        $query = $request->get('nameslsrpt');
+        $sls = Sales_user::where('name', 'LIKE', '%'. $query.'%')->get();
+        $filterResult = array();
+        foreach ($sls as $s) {
+            $filterResult[] = $s->code_sales.' - '.$s->name;
+        }
+        return response()->json($filterResult);
     }
 }

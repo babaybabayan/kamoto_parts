@@ -15,12 +15,22 @@ class CustomerController extends Controller{
     public function tambah(Request $request){
     	$cdcus = DB::table('customer')->where('code_customer', $request->id)->count();
         if ($cdcus == 0) {
+            if ($request->city=='') {
+                $city='-';
+            }else{
+                $city=$request->city;
+            }
+            if ($request->telepon=='') {
+                $telp='-';
+            }else{
+                $telp=$request->telepon;
+            }
             Customer::create([
 	            'code_customer' => $request->id,
 	            'name' => $request->nama,
 	            'address' => $request->alamat,
-	            'city' => $request->city,
-	            'telp' => $request->telepon
+	            'city' => $city,
+	            'telp' => $telp
 	        ]);
         }
         return Response::json(['success'=>true, 'info'=>$cdcus]);
