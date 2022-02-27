@@ -23,17 +23,21 @@
     @endforeach
   <input type="hidden" class="idpympnj" name="idpympnj" value="{{$idpym}}">
   <input type="hidden" class="idcushpnj" name="idcushpnj" value="{{$idcus}}">
+  <input type="hidden" class="tglaw" value="{{$tglaw}}">
+  <input type="hidden" class="tglak" value="{{$tglak}}">
+  <input type="hidden" class="tgl" value="{{date('Y-m-d')}}">
   <div class="row">
     <h3>History Penjualan</h3>
   </div>
   <div class="row">
     <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left tglpnj1" value="{{date('d-m-Y', strtotime($tgl3))}}" readonly>
+      <input type="text" class="form-control has-feedback-left htglpnj1" value="{{date('d-m-Y', strtotime($tgl3))}}" readonly>
+      <input type="hidden" class="hstglpnj1" value="{{date('m-d-Y', strtotime($tgl3))}}">
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
     </div>
-    <div class="col-md-1"><input type="text" class="form-control tmpo" value="{{$hari}}" readonly></div>
+    <div class="col-md-1"><input type="text" class="form-control htmpo" onkeyup="htempo()" value="{{$hari}}"></div>
     <div class="col-md-2">
-      <input type="text" class="form-control has-feedback-left tgltmpo" value="{{date('d-m-Y', strtotime($tgl4))}}" readonly>
+      <input type="text" class="form-control has-feedback-left htgltmpo" value="{{date('d-m-Y', strtotime($tgl4))}}" readonly>
       <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
     </div>
   </div>
@@ -71,14 +75,14 @@
     <table class="table table-bordered" id="tblpnjhst" style="width: 100%">
       <thead>
         <tr>
+          <th style="width: 5%; text-align: center;">No.</th>
           <th style="width: 10%; text-align: center">Kode Barang</th>
           <th style="width: 30%; text-align: center">Nama Barang</th>
           <th style="width: 10%; text-align: center">Satuan</th>
           <th style="width: 10%; text-align: center">Qty</th>
           <th style="width: 10%; text-align: center">Harga Jual</th>
-          <th style="width: 10%; text-align: center; text-align: center">Discount(%)</th>
+          <th style="width: 10%; text-align: center">Discount(%)</th>
           <th style="width: 10%; text-align: center">Grand Total</th>
-          <th style="width: 5%; text-align: center"></th>
           <th style="width: 5%; text-align: center"></th>
         </tr>
       </thead>
@@ -88,7 +92,7 @@
     </table>
     </form>
   </div>
-  <div class="modal fade medthpnj" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade hrgmdlhpnj" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
@@ -97,20 +101,15 @@
             <div class="modal-body">
               
             </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-              <a href="#" class="btn btn-primary smpnmehpnj">OK</a>
-            </div>
-            
         </div>
       </div>
     </div>
   <div class="row">
     <div class="col-md-1">
-      <div><a href="#" class="btn btn-primary smpnthpnj">SIMPAN</a></div>
+      <div><a href="#" class="btn btn-primary smpnthpnj" id="smpnthpnj">SIMPAN</a></div>
     </div>
     <div class="col-md-9">
-      <div><a href="#" class="btn btn-primary smpnprntthpnj">SIMPAN & PRINT</a></div>
+      <div><a href="#" class="btn btn-primary smpnprntthpnj" id="smpnprntthpnj">SIMPAN & PRINT</a></div>
     </div>
     <div class="col-md-2" style="text-align: right">
       <div><b>Total : Rp. <span class="ttlhpnj"></span></b><input type="hidden" class="sttlhpnj"></div>

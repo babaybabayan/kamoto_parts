@@ -1,6 +1,7 @@
 @extends('template.index')
 
 @section('content')
+  <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
   <div class="row">
     <div style="float: left;">
       <h3>Master Sales</h3>
@@ -25,11 +26,11 @@
                 <label for="nama">Nama</label>
                 <input type="text" id="namasls" class="form-control" name="nama" autocomplete="off" required />
                 <label for="telepon">Telepon</label>
-                <input type="text" id="teleponsls" class="form-control" name="telepon" autocomplete="off" required />
+                <input type="text" id="teleponsls" class="form-control" name="telepon" autocomplete="off">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <a href="#" class="btn btn-primary smpnsls">Simpan</a>
+                <a href="#" class="btn btn-primary smpnsls" id="smpnsls">Simpan</a>
               </div>
             </form>
           </div>
@@ -38,7 +39,7 @@
     </div>
   </div>
 	<div class="row">
-  		<table id="datatable" class="table table-striped table-bordered" style="width: 100%">
+  		<table id="dtbrg" class="table table-striped table-bordered" style="width: 100%">
         <thead>
           <tr>
             <th style="text-align: center">Kode</th>

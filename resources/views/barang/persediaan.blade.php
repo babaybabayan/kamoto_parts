@@ -1,17 +1,12 @@
 @extends('template.index')
 
 @section('content')
-  <?php
-    function rupiah($angka){
-      $hasil_rupiah = number_format($angka,2,',','.');
-      return $hasil_rupiah;
-    }
-  ?>
+  <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
   <div class="row">
     <h3>Nilai Persediaan</h3>
   </div>
 	<div class="row">
-  	<table id="datatable" class="table table-striped table-bordered">
+  	<table id="dtpsd" class="table table-striped table-bordered">
       <thead>
         <tr>
           <th style="text-align: center; width: 10%">Kode</th>
@@ -37,8 +32,8 @@
               <a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ date('d-m-Y', strtotime($b->created_at)) }}</a>
             </td>
             <td style="text-align: center;"><a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ $b->weight }}</a></td>
-            <td style="text-align: right;"><a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ rupiah($b->capital) }}</a></td>
-            <td style="text-align: right;"><a href="#" data-toggle="modal" data-target=".hstpsd{{ $b->id }}">{{ rupiah($b->selling) }}</a></td>
+            <td style="text-align: right;">{{ $b->capital }}</td>
+            <td style="text-align: right;">{{ $b->selling }}</td>
           </tr>
           <div class="modal fade hstpsd{{ $b->id }}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-sm">

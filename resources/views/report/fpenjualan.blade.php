@@ -24,11 +24,11 @@
     <br>
     <div class="row">
       <div class="col-md-2">
-        <input type="text" class="form-control has-feedback-left namesls" placeholder="Pilih Sales" required>
-        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" name="idsls" class="idsls" required>
+        <input type="text" class="form-control has-feedback-left nameslsrpt" placeholder="Pilih Sales" required>
+        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" name="idslsrpt" class="idslsrpt" required>
       </div>
       <div class="col-md-2">
-          <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span></button>
+          <button type="submit" class="btn btn-primary" id="crptpnj" disabled><span class="fa fa-search"></span></button>
         </div>
     </div>
   </form>

@@ -162,19 +162,18 @@
     </div>   
     <div id="content" style="margin-top: 0px ;margin-bottom: 120px; margin-left: 20px; margin-right: 30px">
       <table style="width: 100%;" id="tbinvpnj">
-        <thead>
+     
           <tr>
-            <th style="width: 5%; text-align: right;"><font size="11pt"><b>NO</b></font></th>
-            <th style="width: 12%; text-align: left;"><font size="11pt"><b>Kode Barang</b></font></th>
-            <th style="width: 44%; text-align: left;"><font size="11pt"><b>Nama Barang</b></font></th>
-            <th style="width: 6%; text-align: right;"><font size="11pt"><b>QTY</b></font></th>
-            <th style="width: 5%; text-align: left;"><font size="11pt"><b>Unit</b></font></th>
-            <th style="width: 11%; text-align: right;"><font size="11pt"><b>Hrg. Satuan</b></font></th>
-            <th style="width: 7%; text-align: right;"><font size="11pt"><b>Disc%</b></font></th>
-            <th style="width: 10%; text-align: right;"><font size="11pt"><b>Sub Total</b></font></th>
+            <td style="width: 5%; text-align: right;"><font size="11pt"><b>NO</b></font></td>
+            <td style="width: 12%; text-align: left;"><font size="11pt"><b>Kode Barang</b></font></td>
+            <td style="width: 44%; text-align: left;"><font size="11pt"><b>Nama Barang</b></font></td>
+            <td style="width: 6%; text-align: right;"><font size="11pt"><b>QTY</b></font></td>
+            <td style="width: 5%; text-align: left;"><font size="11pt"><b>Unit</b></font></td>
+            <td style="width: 11%; text-align: right;"><font size="11pt"><b>Hrg. Satuan</b></font></td>
+            <td style="width: 7%; text-align: right;"><font size="11pt"><b>Disc%</b></font></td>
+            <td style="width: 10%; text-align: right;"><font size="11pt"><b>Sub Total</b></font></td>
           </tr>
-        </thead>
-        <tbody>
+       
           @php $i=1 @endphp
           @foreach($brg as $b)
               <tr>
@@ -196,7 +195,7 @@
                 </font></td>
               </tr>  
           @endforeach
-        </tbody>
+      
       </table>
     </div>
   </body>

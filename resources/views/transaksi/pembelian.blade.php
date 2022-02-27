@@ -32,7 +32,7 @@
     <br />
     <div class="row">
         <div class="col-md-5">
-            <input type="text" class="form-control has-feedback-left namebrgpmb" placeholder="Pilih Barang" autocomplete="off">
+            <input type="text" class="form-control has-feedback-left namebrgpmb" id="namebrgpmb" placeholder="Pilih Barang" autocomplete="off" disabled>
             <span class="fa fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
         </div>
     </div>
@@ -48,9 +48,10 @@
             <table class="table table-bordered" id="tbpnj" style="width: 100%">
                 <thead>
                     <tr>
+                        <th style="width: 5%; text-align: center">No.</th>
                         <th style="width: 10%; text-align: center">Kode Barang</th>
                         <th style="width: 30%; text-align: center">Nama Barang</th>
-                        <th style="width: 5%; text-align: center">Satuan</th>
+                        <th style="width: 10%; text-align: center">Satuan</th>
                         <th style="width: 10%; text-align: center">Qty</th>
                         <th style="width: 10%; text-align: center">Harga Beli</th>
                         <th style="width: 10%; text-align: center">Discount (%)</th>
@@ -84,6 +85,18 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade hrgmdlpmb" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          </div>
+            <div class="modal-body">
+              
+            </div>
+        </div>
+      </div>
     </div>
     <div class="row">
         <div class="col-md-10">
