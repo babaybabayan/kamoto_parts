@@ -13,4 +13,8 @@ class Barang extends Model{
     public function barang_harga(){
     	return $this->hasMany('App\Models\Barang_harga','id');
     }
+
+    public function unit() {
+        return $this->belongsTo(Unit::class, 'id_unit');
+    }
 }
