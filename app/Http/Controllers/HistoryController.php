@@ -394,7 +394,7 @@ class HistoryController extends Controller{
                     $hrg->capital = $h->price;
                     $hrg->save();
                 }
-            }   
+            }
         }
         $pym = PurchasesPayment::find($request->idpympmb);
         if (date('Y-m-d', strtotime($pym->created_at))!=date('Y-m-d', strtotime($request->duedate))) {

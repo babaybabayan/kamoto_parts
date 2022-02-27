@@ -2,7 +2,7 @@
 
 @section('content')
   @foreach($pym as $p)
-      <?php 
+      <?php
         $tgl3 = $p->created_at;
         $tgl4 = $p->due_date;
         $tgl1 = new DateTime($p->created_at);
@@ -13,7 +13,7 @@
         $idpym = $p->id;
         $idcus = $p->idcus;
         $idsls = $p->idsls;
-        $tmpo = $tgl2->diff($tgl1)->days; 
+        $tmpo = $tgl2->diff($tgl1)->days;
         if ($tmpo==0) {
           $hari = $tmpo;
         }else{
@@ -99,7 +99,7 @@
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
           </div>
             <div class="modal-body">
-              
+
             </div>
         </div>
       </div>
