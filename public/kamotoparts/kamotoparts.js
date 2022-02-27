@@ -858,7 +858,6 @@ $(document).ready(function(){
         buttons: ['excel'],
         columnDefs: [
             {targets: 6,render: $.fn.dataTable.render.number( ',', '.', 0, '' ),},
-            {targets: 7,render: $.fn.dataTable.render.number( ',', '.', 0, '' ),},
         ],
         orderCellsTop: true,
         fixedHeader: true,

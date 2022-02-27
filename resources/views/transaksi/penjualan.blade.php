@@ -94,7 +94,7 @@
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
           </div>
             <div class="modal-body">
-              
+
             </div>
         </div>
       </div>

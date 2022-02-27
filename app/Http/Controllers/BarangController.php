@@ -56,9 +56,29 @@ class BarangController extends Controller{
         return view('barang/saldo', ['brg' => $brg, 'unit' => $unit]);
     }
     public function persediaan(){
-        $brg = DB::table('price as a')->select('a.id','b.code_product','b.name','b.id as idb','c.name as nameu','c.id as idu','a.quantity','a.capital','a.selling','a.id_supplier','a.created_at','b.weight')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('unit as c', 'b.id_unit', '=', 'c.id')->where('a.quantity','>',0)->groupBy('a.id_product','a.created_at')->orderBy('b.name','asc')->orderBy('a.created_at','asc')->get();
-        $unit = Unit::all();
-        return view('barang/persediaan', ['brg' => $brg, 'unit' => $unit]);
+        $inventoryValues = $this->getAllInventoryValue();
+        $products = $inventoryValues->map(function($value) {
+            return (object) ([
+                'id' => $value['id'],
+                'id_product' => $value['id_product'],
+                'capital' => $value['capital'],
+                'selling' => $value['selling'],
+                'quantity' => $value['quantity'],
+                'id_product' => $value['id_product'],
+                'code_product' => $value['product']['code_product'],
+                'product_name' => $value['product']['name'],
+                'weight' => $value['product']['weight'],
+                'unit' => $value['product']['unit']['name'],
+                'date' => dateformatted($value['created_at']),
+                'grandTotal' => $value['selling'] * $value['quantity']
+            ]);
+        })->sortBy('product_name');
+        $totalAsset = (object)([
+            "decimalIdr" => convertToIdr($products->pluck('grandTotal')->sum()),
+            "terbilang" => idrToStringDesc($products->pluck('grandTotal')->sum())
+        ]);
+        $totalQuantity = $products->pluck('quantity')->sum();
+        return view('barang/persediaan', ['products' =>  $products, 'totalAsset' => $totalAsset, 'totalQuantity' => $totalQuantity]);
     }
     public function load_namebrgpmb(Request $request){
         $qnamebrg = $request->get('namebrgpmb');
@@ -115,5 +135,13 @@ class BarangController extends Controller{
             $filterResult[] = $b->code_product.' - '.$b->name.' - '.$b->qty.' - '.number_format($b->def_price,0,',','.');
         }
         return response()->json($filterResult);
+    }
+
+    private function getAllInventoryValue() {
+        $prices = Barang_harga::with('product','product.unit')->get();
+        $filteredProducts = $prices->filter(function($products){
+            return $products->quantity > 0;
+        });
+        return $filteredProducts;
     }
 }
