@@ -11,7 +11,7 @@
                 <div class="tile-stats">
                     <div class="icon"></div>
                     <div class="count">{{ $totalQuantity }}</div>
-                    <h3>Total Stok</h3>
+                    <h3>Total Product</h3>
                 </div>
             </div>
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">

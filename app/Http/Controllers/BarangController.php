@@ -77,7 +77,7 @@ class BarangController extends Controller{
             "decimalIdr" => convertToIdr($products->pluck('grandTotal')->sum()),
             "terbilang" => idrToStringDesc($products->pluck('grandTotal')->sum())
         ]);
-        $totalQuantity = $products->pluck('quantity')->sum();
+        $totalQuantity = $products->count();
         return view('barang/persediaan', ['products' =>  $products, 'totalAsset' => $totalAsset, 'totalQuantity' => $totalQuantity]);
     }
     public function load_namebrgpmb(Request $request){
