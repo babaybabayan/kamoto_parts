@@ -70,7 +70,7 @@ class BarangController extends Controller{
                 'weight' => $value['product']['weight'],
                 'unit' => $value['product']['unit']['name'],
                 'date' => dateformatted($value['created_at']),
-                'grandTotal' => $value['selling'] * $value['quantity']
+                'grandTotal' => $value['capital'] * $value['quantity']
             ]);
         })->sortBy('product_name');
         $totalAsset = (object)([
