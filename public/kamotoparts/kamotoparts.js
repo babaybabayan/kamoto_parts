@@ -807,6 +807,8 @@ $(document).ready(function(){
         bInfo: false,
         "ordering": false,
         orderCellsTop: true,
+        dom: 'Bfrtip',
+        buttons: ['excel'],
         fixedHeader: true,
         initComplete: function () {
             var api = this.api();
