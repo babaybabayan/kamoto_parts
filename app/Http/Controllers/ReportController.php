@@ -30,7 +30,10 @@ class ReportController extends Controller{
             }
             $tmdl = array_sum($jml);
             $tpnj = DB::table('payment')->where('id_salesuser','=',$request->idslsrpt)->whereRaw('(created_at >= ? AND created_at <= ?)',[$tgl1.' 00:00:00',$tgl2.' 23:59:59'])->sum('total_payment');
-            return view('report/hpenjualan', ['rpt' => $rpt, 'tgl1' => $tglr1, 'tgl2' => $tglr2, 'sls' => $sls, 'tpnj' => $tpnj, 'tmdl' => $tmdl]);
+            $filteredReport = $rpt->filter(function($invoice) {
+                return $invoice->total_payment > 0 && $invoice->mdl > 0;
+            });
+            return view('report/hpenjualan', ['rpt' => $filteredReport, 'tgl1' => $tglr1, 'tgl2' => $tglr2, 'sls' => $sls, 'tpnj' => $tpnj, 'tmdl' => $tmdl]);
 
         }
 
