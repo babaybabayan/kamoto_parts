@@ -8,15 +8,17 @@ use App\Models\SettingInv;
 
 class SettingInvController extends Controller{
     public function index(){
-    	$stg = SettingInv::all();
-        return view('setting', ['stg' => $stg]);
+    	$data = SettingInv::first();
+        return view('setting')->with('data', $data);
     }
     public function ubah($id, Request $request){
-        $stg = SettingInv::find($id);
-        $stg->bank_name = $request->sbn;
-        $stg->account_no = $request->san;
-        $stg->name = $request->sn;
-        $stg->save();
+        $data = SettingInv::find($id);
+        $data->store_name = $request->storeName;
+        $data->name = $request->onBehalfOf;
+        $data->bank_name = $request->bankName;
+        $data->phone_number = $request->phoneNumber;
+        $data->account_number = $request->accountNumber;
+        $data->save();
         return redirect('/stg');
     }
 }

@@ -29,9 +29,11 @@
       @php $ttl=$s->total_payment @endphp
     @endforeach
     @foreach($stg as $s2)
-      @php $bn=$s2->bank_name @endphp
-      @php $an=$s2->account_no @endphp
-      @php $nb=$s2->name @endphp
+      @php $storeName=$s2->store_name @endphp
+      @php $phoneNumber=$s2->phone_number @endphp
+      @php $bankName=$s2->bank_name @endphp
+      @php $accountNumber=$s2->account_number @endphp
+      @php $onBehalfOf=$s2->name @endphp
     @endforeach
     <div id="header" style="margin-top: -10px; margin-left: 30px; margin-right: 30px;">
       <div style="width: 100%;">
@@ -39,7 +41,7 @@
         <div style="float: right; width: 56%;"><b><font size="14pt">Invoice</font></b></div>
       </div>
       <br>
-      <div><b><font size="12pt">KAMOTO PARTS HP/WA-0899.7289.252</font></b></div>
+      <div><b><font size="12pt">{{$storeName}} HP/WA-{{$phoneNumber}}</font></b></div>
       <div style="border: 1px solid #000000;">
         <table style="width: 100%">
           <tr>
@@ -138,11 +140,11 @@
           </div>
           <div style="float: right; width: 50%">
             <div style="float: left; border: 1px solid #000000; width: 40%; margin-top: 7px">
-              <font size="11pt">No. Rekening {{$bn}}</font>
+              <font size="11pt">No. Rekening {{$bankName}}</font>
               <br>
-              <font size="11pt"><b>A/C. {{$an}}</b></font>
+              <font size="11pt"><b>A/C. {{$accountNumber}}</b></font>
               <br>
-              <font size="11pt">A.N {{$nb}}</font>
+              <font size="11pt">A.N {{$onBehalfOf}}</font>
             </div>
             <div style="float: right; width: 30%; margin-right: 50px">
               <font size="11pt">Hormat Kami</font>
