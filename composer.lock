@@ -236,22 +236,22 @@
         },
         {
             "name": "consoletvs/charts",
-            "version": "6.5.5",
+            "version": "6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConsoleTVs/Charts.git",
-                "reference": "0005d14e4fe6715f4146a4dc3b56add768233001"
+                "reference": "2bfd2c624fc68b9679b4b1c61c4de50fdae1b5f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/0005d14e4fe6715f4146a4dc3b56add768233001",
-                "reference": "0005d14e4fe6715f4146a4dc3b56add768233001",
+                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/2bfd2c624fc68b9679b4b1c61c4de50fdae1b5f9",
+                "reference": "2bfd2c624fc68b9679b4b1c61c4de50fdae1b5f9",
                 "shasum": ""
             },
             "require": {
                 "balping/json-raw-encoder": "^1.0",
-                "illuminate/console": "^5.0|^6.0|^7.0|^8.0",
-                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/console": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
                 "php": ">=7.0"
             },
             "type": "library",
@@ -280,19 +280,15 @@
             "description": "The laravel charting package",
             "support": {
                 "issues": "https://github.com/ConsoleTVs/Charts/issues",
-                "source": "https://github.com/ConsoleTVs/Charts/tree/6.5.5"
+                "source": "https://github.com/ConsoleTVs/Charts/tree/6.6.0"
             },
             "funding": [
-                {
-                    "url": "https://github.com/ConsoleTVs",
-                    "type": "github"
-                },
                 {
                     "url": "https://www.patreon.com/ErikCampobadal",
                     "type": "patreon"
                 }
             ],
-            "time": "2020-09-10T14:20:26+00:00"
+            "time": "2023-02-01T06:52:41+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -8074,5 +8070,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
