@@ -177,29 +177,7 @@
                 },
             });
         });
-        var namebrghpmb = "{{url('/brg/namebrghpmb')}}";
-        $('.namebrghpmb').typeahead({
-            source: function (qnamebrg, process){
-                return $.get(namebrghpmb, {
-                    qnamebrg: qnamebrg
-                }, function (data){
-                    return process(data);
-                });
-            }
-        });
-        $(".namebrghpmb").change(function() {
-            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
-            var b = $('.idpympmb').val();
-            var c = $('.idsplhpmb').val();
-            $.ajax({
-                url: '/hst/epmb/tmbrg/'+a+'/'+b+'/'+c,
-                type: 'get',
-                data: {},
-                success: function(data) {
-                    
-                },
-            });
-        });
+
         var namebrghpnj = "{{url('/brg/namebrghpnj')}}";
         $('.namebrghpnj').typeahead({
             source: function (qnamebrg, process){
@@ -249,6 +227,7 @@
             });
         });
     </script>
+    @stack('scripts')
     <script src="{{url('kamotoparts/kamotoparts.js')}}"></script>
     <script src="{{url('gentelella-master/build/js/custom.min.js')}}"></script>
   </body>

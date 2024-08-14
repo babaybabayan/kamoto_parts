@@ -99,15 +99,7 @@ class BarangController extends Controller{
         }
         return response()->json($filterResult);
     }
-    public function load_namebrgpnj(Request $request){
-        $qnamebrg = $request->get('namebrgpnj');
-        $brg = DB::table('price as a')->selectRaw('a.id,b.code_product,b.name,b.id as idb,sum(a.quantity) as qty,b.def_price')->join('product_name as b', 'a.id_product', '=', 'b.id')->where('name', 'LIKE', '%'.$qnamebrg.'%')->whereRaw('a.quantity > 0 group by a.id_product')->orderBy('b.name','ASC')->get();
-        $filterResult = array();
-        foreach ($brg as $b) {
-            $filterResult[] = $b->code_product.' - '.$b->name.' - '.$b->qty.' - '.number_format($b->def_price,0,',','.');
-        }
-        return response()->json($filterResult);
-    }
+
     public function load_namebrghpmb(Request $request){
         $qnamebrg = $request->get('namebrghpmb');
         $brg = Barang::where('name', 'LIKE', '%'.$qnamebrg.'%')->orderBy('name','ASC')->get();
@@ -140,8 +132,27 @@ class BarangController extends Controller{
     private function getAllInventoryValue() {
         $prices = Barang_harga::with('product','product.unit')->get();
         $filteredProducts = $prices->filter(function($products){
-            return $products->quantity > 0;
+            return $products-> quantity > 0;
         });
         return $filteredProducts;
+    }
+
+    public function getProductWithPrice(Request $request) {
+        $requestName = $request->value;
+        $products = Barang::with('prices')->where('name', 'like', '%'.$requestName.'%')->get();
+        $mapProducts = $products->map(function($product) {
+            return (object) ([
+                'idProduct' => $product['id'],
+                'codeProduct' => $product['code_product'],
+                'productName' => $product['name'],
+                'quantity' => $product['prices']->where('capital', '>', 0)->pluck('quantity')->sum(),
+                'price' => $product['def_price'],
+            ]);
+        });
+        $filterResult = array();
+        foreach ($mapProducts as $product) {
+            $filterResult[] = $product->codeProduct.' - '.$product->productName.' - '.$product->quantity.' - '.number_format($product->price,0,',','.');
+        }
+        return response()->json($filterResult);
     }
 }

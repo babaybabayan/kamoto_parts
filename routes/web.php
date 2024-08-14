@@ -31,8 +31,8 @@ Route::put('/brg/sat/ubah/{id}', [UnitController::class, 'ubah']);
 Route::get('/sld', [BarangController::class, 'saldo'])->middleware('auth');
 Route::get('/psd', [BarangController::class, 'persediaan'])->middleware('auth');
 Route::get('/brg/namebrgpmb', [BarangController::class, 'load_namebrgpmb']);
-Route::get('/brg/namebrgpnj', [BarangController::class, 'load_namebrgpnj']);
 Route::get('/brg/namebrghpmb', [BarangController::class, 'load_namebrghpmb']);
+Route::get('/product/get-search-product', [BarangController::class, 'getProductWithPrice']);
 Route::get('/brg/namebrghpnj', [BarangController::class, 'load_namebrghpnj']);
 
 Route::get('/spl', [SupplierController::class, 'index'])->middleware('auth');

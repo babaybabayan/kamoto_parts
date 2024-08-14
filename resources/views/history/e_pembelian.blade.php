@@ -106,3 +106,48 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    };
+
+    $('.namebrghpmb').typeahead({
+        source: debounce(function (searchValue, process) {
+            $.ajax({
+                url: "{{url('/product/get-search-product')}}",
+                method: 'GET',
+                data: {
+                    value: searchValue
+                },
+                success: function (response) {
+                    process(response);
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', status, error);
+                }
+            });
+        }, 500)
+    });
+
+    $(".namebrghpmb").change(function() {
+        var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+        var b = $('.idpympmb').val();
+        var c = $('.idsplhpmb').val();
+        $.ajax({
+            url: '/hst/epmb/tmbrg/'+a+'/'+b+'/'+c,
+            type: 'get',
+            data: {},
+            success: function(data) {
+                
+            },
+        });
+    });
+</script>
+@endpush
