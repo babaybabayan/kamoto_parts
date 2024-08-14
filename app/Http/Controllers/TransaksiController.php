@@ -13,25 +13,64 @@ use PDF;
 
 class TransaksiController extends Controller{
     public function penjualan(){
-    	$brg = DB::table('price as a')->select('a.id','b.code_product','b.name','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->whereRaw('a.quantity > 0 group by a.id_product')->orderBy('b.name','ASC')->get();
         $ctrs = DB::table('payment')->count();
         $jmltrs = $ctrs+1;
-        return view('transaksi/penjualan', ['brg' => $brg,'ctrs' => $jmltrs]);
+        return view('transaksi/penjualan', ['ctrs' => $jmltrs]);
     }
     public function data_penjualan(){
-    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get();	
+    	$pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','c.price','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('sales as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('c.created_at','desc')->get();
     	return response()->json($pnj);
     }
-    public function tambah(Request $request){
-        $csls = DB::table('sales')->where('id_price','=',$request->checked)->where('status','=',1)->count();
-        if ($csls==0) {
-            Sales::create([
-                'id_price' => $request->checked,
-                'status' => 1
-            ]);
-        }else{
-            DB::table('sales')->where('id_price','=',$request->checked)->where('status','=',1)->delete();
+    public function insbrgpnj($id,$idcus){
+        $code = strtok($id, ' ');
+        $fill = DB::table('price as a')->select('a.id','a.id_product')->join('product_name as b', 'a.id_product', '=', 'b.id')->where('b.code_product', '=', $code)->where('a.quantity','>',0)->orderBy('a.id','ASC')->take(1)->get();
+        foreach ($fill as $f) {
+            $csls = DB::table('sales')->where('id_price','=',$f->id)->where('status','=',1)->count();
+            if ($csls==0) {
+                $price = DB::table('sales as a')->select('a.price')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$idcus)->where('c.id_product','=',$f->id_product)->count();
+                if ($price==0) {
+                    $sellinglast = 0;
+                }else{
+                    $price2 = DB::table('sales as a')->select('a.price')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$idcus)->where('c.id_product','=',$f->id_product)->orderBy('a.id','DESC')->take(1)->get();
+                    foreach ($price2 as $p2) {
+                        $sellinglast = $p2->price;
+                    }
+                }
+                Sales::create([
+                    'id_price' => $f->id,
+                    'price' => $sellinglast,
+                    'status' => 1
+                ]);
+            }
         }
+    }
+    public function qtypnj(Request $request){
+        $prc = Sales::find($request->id);
+        $prc->quantity = $request->qty;
+        $prc->save();
+    }
+    public function hrgpnj(Request $request){
+        $prc = Sales::find($request->id);
+        $prc->price = $request->hrg;
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->selling = $request->hrg;
+        $hrg->save();
+        $prc->save();
+    }
+    public function dispnj(Request $request){
+        $prc = Sales::find($request->id);
+        $prc->disc = $request->dis;
+        $prc->save();
+    }
+    public function hrgmpnj($ids,$idb,$idcus){
+        $hst = DB::table('sales as a')->select('b.created_at','a.price','a.id')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('c.id_product','=',$idb)->where('b.id_customer', '=', $idcus)->groupBy('b.id')->orderBy('b.created_at','DESC')->get();
+        return view('transaksi/hrgmpnj', ['hsthrg' => $hst,'ids' => $ids]);
+    }
+    public function edthrgmpnj($idh,$ids){
+        $sls = Sales::find($idh);
+        $sls2 = Sales::find($ids);
+        $sls2->price = $sls->price;
+        $sls2->save();
     }
     public function delprc($id){
         $prc = Sales::find($id);
@@ -58,9 +97,10 @@ class TransaksiController extends Controller{
         $pym = Transaksi::orderBy('id', 'DESC')->take(1)->get();
         foreach ($pym as $p) {
             $idpym = $p['id'];
+            $idcus = $p['id_customer'];
         }
         $ipnj = $request->ipnj;
-        for ($i=0; $i < count($ipnj); $i++) { 
+        for ($i=0; $i < count($ipnj); $i++) {
             $prc = Sales::find($ipnj[$i]);
             $hrg = Barang_harga::find($prc->id_price);
             $vhrg = DB::table('price')->where('id_product','=',$hrg->id_product)->where('quantity','>',0)->orderBy('created_at','ASC')->get();
@@ -107,45 +147,81 @@ class TransaksiController extends Controller{
                     $hrg3 = Barang_harga::find($v->id);
                     $hrg3->quantity = $japq-$request->qpnj[$i];
                     $hrg3->save();
-                    DB::table('price')->where('id_product','=',$hrg->id_product)->update([
-                        'selling'=>$hrgj
-                    ]);
+                    $jprice = DB::table('sales as a')->select('c.id')->join('payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('b.id_customer','=',$idcus)->where('c.id_product','=',$hrg->id_product)->get();
+                    foreach ($jprice as $jp) {
+                        DB::table('price')->where('id','=',$jp->id)->update([
+                            'selling'=>$hrgj
+                        ]);
+                    }
                     break;
                 }
             }
         }
     }
     public function pembelian(){
-        $brg = DB::table('product_name')->orderBy('code_product','ASC')->get();
-        return view('transaksi/pembelian', ['brg' => $brg]);
+        return view('transaksi/pembelian');
     }
     public function data_pembelian(){
-        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('b.name','asc')->get(); 
+        $pnj = DB::table('price as a')->select('a.id','a.capital','a.selling','b.code_product','b.name','a.quantity','c.quantity as qtyp','c.disc','c.id as idp','d.name as nameu','b.id as idb')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('purchases as c', 'c.id_price', '=', 'a.id')->join('unit as d', 'b.id_unit', '=', 'd.id')->where('c.status','=','1')->orderBy('c.created_at','desc')->get();
         return response()->json($pnj);
     }
-    public function insprc(Request $request){
-        $cprc = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('b.id_product','=',$request->checked)->where('a.status','=',1)->count();
-        if ($cprc==0) {
-            Barang_harga::create([
-                'id_product' => $request->checked
-            ]);
-            $hrg = Barang_harga::orderBy('id', 'DESC')->take(1)->get();
-            foreach ($hrg as $h) {
-                $idhrg = $h['id'];
-            }
-            Purchases::create([
-                'id_price' => $idhrg,
-                'status' => 1
-            ]);
-        }else{
-            $id = DB::table('purchases as a')->select('a.id','b.id as idh')->join('price as b', 'a.id_price', '=', 'b.id')->where('b.id_product','=',$request->checked)->where('a.status','=',1)->get();
-            foreach ($id as $i) {
-                $hrg2 = Barang_harga::find($i->idh);
-                $hrg2->delete();
-                $prc = Purchases::find($i->id);
-                $prc->delete();
+    public function insbrg($id){
+        $code = strtok($id, ' ');
+        $fill = DB::table('product_name')->where('code_product', $code)->get();
+        foreach ($fill as $f) {
+            $cprc = DB::table('purchases as a')->join('price as b', 'a.id_price', '=', 'b.id')->where('b.id_product','=',$f->id)->where('a.status','=',1)->count();
+            if ($cprc==0) {
+                Barang_harga::create([
+                    'id_product' => $f->id
+                ]);
+                $hrg = Barang_harga::orderBy('id', 'DESC')->take(1)->get();
+                foreach ($hrg as $h) {
+                    $idhrg = $h['id'];
+                }
+                Purchases::create([
+                    'id_price' => $idhrg,
+                    'status' => 1
+                ]);
             }
         }
+        
+    }
+    public function qtypmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $prc->quantity = $request->qty;
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->quantity = $request->qty;
+        $hrg->save();
+        $prc->save();
+    }
+    public function hrgpmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->capital = $request->hrg;
+        $hrg->save();
+    }
+    public function dispmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $prc->disc = $request->dis;
+        $prc->save();
+    }
+    public function hrgmpmb($idp,$idb,$idspl){
+        $hst = DB::table('purchases as a')->select('b.created_at','c.capital','a.id')->join('purchases_payment as b', 'a.id_payment', '=', 'b.id')->join('price as c', 'a.id_price', '=', 'c.id')->where('c.id_product','=',$idb)->where('b.id_supplier', '=', $idspl)->orderBy('b.created_at','DESC')->get();
+        return view('transaksi/hrgmpmb', ['hsthrg' => $hst,'idp' => $idp]);
+    }
+    public function edthrgmpmb($idh,$idp){
+        $prc = Purchases::find($idh);
+        $hrg = Barang_harga::find($prc->id_price);
+        $prc2 = Purchases::find($idp);
+        $hrg2 = Barang_harga::find($prc2->id_price);
+        $hrg2->capital = $hrg->capital;
+        $hrg2->save();
+    }
+    public function brtpmb(Request $request){
+        $prc = Purchases::find($request->id);
+        $hrg = Barang_harga::find($prc->id_price);
+        $hrg->weight = $request->brt;
+        $hrg->save();
     }
     public function delprcpmb($id,$qty){
         DB::table('purchases')->where('id_price','=',$id)->where('status','=',1)->delete();
@@ -175,28 +251,12 @@ class TransaksiController extends Controller{
             $idspl = $p['id_supplier'];
         }
         $ipmb = $request->ipmb;
-        for ($i=0; $i < count($ipmb); $i++) { 
+        for ($i=0; $i < count($ipmb); $i++) {
             $prc = Purchases::find($ipmb[$i]);
             $prc->id_payment = $idpym;
-            $prc->quantity = $request->qpmb[$i];
-            $prc->disc = $request->dpmb[$i];
             $prc->status = 2;
             $hrg = Barang_harga::find($prc->id_price);
-            $chrg = DB::table('price')->where('id_product','=',$hrg->id_product)->where('selling','!=',0)->count();
-            if ($chrg==0) {
-                $sellinglast = 0;
-            }else{
-                $hrgj = DB::table('price')->where('id_product','=',$hrg->id_product)->where('selling','!=',0)->orderBy('id', 'DESC')->take(1)->get();
-                foreach ($hrgj as $h) {
-                    $sellinglast = $h->selling;
-                }
-            }
-            $hrgb = str_replace(".", "", $request->hpmb[$i]);
-            $hrg->capital = $hrgb;
-            $hrg->selling = $sellinglast;
-            $hrg->quantity = $request->qpmb[$i];
             $hrg->id_supplier = $idspl;
-            $hrg->weight = $request->bpmb[$i];
             $hrg->save();
             $prc->save();
         }

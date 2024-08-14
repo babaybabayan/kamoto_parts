@@ -1,13 +1,19 @@
 @extends('template.index')
 
 @section('content')
-	<div class="row">
-    <div class="col-md-11">
-  		<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah"><span class="fa fa-plus-square"></span></button>
-  		<div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
+  <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
+  <div class="row">
+    <div style="float: left;">
+      <h3>Master Sales</h3>
+    </div>
+    <div style="float: right;">
+      <div class="col-md-11">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah"><span class="fa fa-plus-square"></span></button>
+      </div>
+      <div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
-  					<div class="modal-header">
+            <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
               <h4 class="modal-title" id="myModalLabel">Tambah Sales</h4>
             </div>
@@ -17,21 +23,23 @@
                 <span id="elorsls"></span><br/>
                 <label for="id">Kode</label>
                 <input type="text" id="idsls" class="form-control" name="id" autocomplete="off" required />
-  							<label for="nama">Nama</label>
+                <label for="nama">Nama</label>
                 <input type="text" id="namasls" class="form-control" name="nama" autocomplete="off" required />
                 <label for="telepon">Telepon</label>
-                <input type="text" id="teleponsls" class="form-control" name="telepon" autocomplete="off" required />
+                <input type="text" id="teleponsls" class="form-control" name="telepon" autocomplete="off">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <a href="#" class="btn btn-primary smpnsls">Simpan</a>
+                <a href="#" class="btn btn-primary smpnsls" id="smpnsls">Simpan</a>
               </div>
             </form>
-  				</div>
+          </div>
         </div>
       </div>
     </div>
-  		<table id="datatable" class="table table-striped table-bordered" style="width: 100%">
+  </div>
+	<div class="row">
+  		<table id="dtbrg" class="table table-striped table-bordered" style="width: 100%">
         <thead>
           <tr>
             <th style="text-align: center">Kode</th>
@@ -53,7 +61,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Ubah Data Customer</h4>
+                  <h4 class="modal-title" id="myModalLabel">Ubah Data Sales</h4>
                 </div>
                 <form action="/sls/ubah/{{ $s->id }}" method="post" enctype="multipart/form-data" id="demo-form" data-parsley-validate>
                   {{ csrf_field() }}

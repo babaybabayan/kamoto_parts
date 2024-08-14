@@ -79,6 +79,7 @@
                 success: function(data) {
                     if (data.success == true) {
                         $(".idcus").val(data.info);
+                        document.getElementById('namebrgpnj').disabled = false;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {}
@@ -127,12 +128,106 @@
                 success: function(data) {
                     if (data.success == true) {
                         $(".idsplpmb").val(data.info);
+                        document.getElementById('namebrgpmb').disabled = false;
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+        });
+        var namebrgpmb = "{{url('/brg/namebrgpmb')}}";
+        $('.namebrgpmb').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrgpmb, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrgpmb").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            $.ajax({
+                url: '/trs/pmb/tmbrg/' + a,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
+        var namebrgpnj = "{{url('/brg/namebrgpnj')}}";
+        $('.namebrgpnj').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrgpnj, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrgpnj").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            var b = $('.idcus').val();
+            $.ajax({
+                url: '/trs/pnj/tmbrg/'+a+'/'+b,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
+
+        var namebrghpnj = "{{url('/brg/namebrghpnj')}}";
+        $('.namebrghpnj').typeahead({
+            source: function (qnamebrg, process){
+                return $.get(namebrghpnj, {
+                    qnamebrg: qnamebrg
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".namebrghpnj").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            var b = $('.idpympnj').val();
+            var c = $('.idcushpnj').val();
+            $.ajax({
+                url: '/hst/epnj/tmbrg/'+a+'/'+b+'/'+c,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    
+                },
+            });
+        });
+        var nameslsrpt = "{{url('/sls/nameslsrpt')}}";
+        $('.nameslsrpt').typeahead({
+            source: function (query, process){
+                return $.get(nameslsrpt, {
+                    query: query
+                }, function (data){
+                    return process(data);
+                });
+            }
+        });
+        $(".nameslsrpt").change(function() {
+            $.ajax({
+                url: '/sls/getidsls/' + $(this).val(),
+                type: 'get',
+                data: {},
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success == true) {
+                        $(".idslsrpt").val(data.info);
+                        document.getElementById('crptpnj').disabled = false;
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
         });
     </script>
+    @stack('scripts')
     <script src="{{url('kamotoparts/kamotoparts.js')}}"></script>
     <script src="{{url('gentelella-master/build/js/custom.min.js')}}"></script>
   </body>

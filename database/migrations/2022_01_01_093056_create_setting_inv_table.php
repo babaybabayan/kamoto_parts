@@ -20,11 +20,6 @@ class CreateSettingInvTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
-        DB::table('setting_inv')->insert([
-            'bank_name' => 'BCA',
-            'account_no' => '379.011.0969',
-            'name' => 'YUFIRA'
-        ]);
     }
 
     /**

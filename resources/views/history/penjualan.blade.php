@@ -3,7 +3,10 @@
 @section('content')
   <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
   <div class="row">
-    <form action="/hst/pnj" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <h3>History Penjualan</h3>
+  </div>
+  <div class="row">
+    <form action="/hst/rpnj" method="post" enctype="multipart/form-data" class="form-horizontal">
       {{ csrf_field() }}
       <div class="col-md-2">
         <input type="text" class="form-control has-feedback-left tanggal" name="tglhst1" placeholder="{{date('d-m-Y')}}" required autocomplete="off">
@@ -55,7 +58,7 @@
             <td>{{ $h->namesls }}</td>
             <td style="text-align: right">{{ $h->total_payment }}</td></input>
             <td style="text-align: center">
-              <a href="/hst/epnj/{{ $h->id }}"><span class="fa fa-edit"></span></a>
+              <a href="/hst/epnj/{{ $h->id }}/{{ $tgl1 }}/{{ $tgl2 }}"><span class="fa fa-edit"></span></a>
             </td>
           </tr>
         @endforeach

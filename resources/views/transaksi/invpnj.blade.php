@@ -1,7 +1,7 @@
 <html>
   <head>
     <style>
-      @page { margin: 25px 0px 0px 0px; }
+      @page { margin: 35px 0px 10px 0px; }
       #footer { position: fixed; left: 30px; bottom: 0px; right: 30px; height: 130px; }
       #page:after { content: counter( page, upper); }
     </style>
@@ -29,17 +29,19 @@
       @php $ttl=$s->total_payment @endphp
     @endforeach
     @foreach($stg as $s2)
-      @php $bn=$s2->bank_name @endphp
-      @php $an=$s2->account_no @endphp
-      @php $nb=$s2->name @endphp
+    @php $storeName=$s2->store_name @endphp
+    @php $phoneNumber=$s2->phone_number @endphp
+    @php $bankName=$s2->bank_name @endphp
+    @php $accountNumber=$s2->account_number @endphp
+    @php $onBehalfOf=$s2->name @endphp
     @endforeach
     <div id="header" style="margin-top: -10px; margin-left: 30px; margin-right: 30px;">
       <div style="width: 100%;">
-        <div style="float: left; width: 44%"><b><font size="12pt">Kamoto Parts</font></b></div>
+        {{-- <div style="float: left; width: 44%"><b><font size="12pt">Kamoto Parts</font></b></div> --}}
         <div style="float: right; width: 56%;"><b><font size="14pt">Invoice</font></b></div>
       </div>
       <br>
-      <div><b><font size="12pt">BANDUNG HP/WA-0821.2008.6518</font></b></div>
+      <div><b><font size="12pt">{{$storeName}} HP/WA-{{$phoneNumber}}</font></b></div>
       <div style="border: 1px solid #000000;">
         <table style="width: 100%">
           <tr>
@@ -62,7 +64,7 @@
         </table>
       </div>
     </div>
-    
+
     <div id="footer">
       <div>
         <div style="border-top: 1px solid #000000; width: 100%">
@@ -92,7 +94,7 @@
                   $temp = penyebut($nilai/1000000000) . " milyar" . penyebut(fmod($nilai,1000000000));
                 } else if ($nilai < 1000000000000000) {
                   $temp = penyebut($nilai/1000000000000) . " trilyun" . penyebut(fmod($nilai,1000000000000));
-                }     
+                }
                 return $temp;
               }
               function terbilang($nilai) {
@@ -100,12 +102,12 @@
                   $hasil = "minus ". trim(penyebut($nilai));
                 } else {
                   $hasil = trim(penyebut($nilai));
-                }         
+                }
                 return $hasil;
               }
               function rupiah($angka){
                 $hasil_rupiah = number_format($angka,0,',','.');
-                return $hasil_rupiah; 
+                return $hasil_rupiah;
               }
             ?>
             <font size="10pt" style="text-transform: uppercase;"><i>{{terbilang($ttl)}}</i></font>
@@ -138,11 +140,11 @@
           </div>
           <div style="float: right; width: 50%">
             <div style="float: left; border: 1px solid #000000; width: 40%; margin-top: 7px">
-              <font size="11pt">No. Rekening {{$bn}}</font>
+              <font size="11pt">No. Rekening {{$bankName}}</font>
               <br>
-              <font size="11pt"><b>A/C. {{$an}}</b></font>
+              <font size="11pt"><b>A/C. {{$accountNumber}}</b></font>
               <br>
-              <font size="11pt">A.N {{$nb}}</font>
+              <font size="11pt">A.N {{$onBehalfOf}}</font>
             </div>
             <div style="float: right; width: 30%; margin-right: 50px">
               <font size="11pt">Hormat Kami</font>
@@ -157,24 +159,23 @@
           <font size="9pt">Catatan:klaim barang maximal 5hari dari tanggal terima barang / selain no rekening di atas tidak sah</font>
         </div>
       </div>
-    
-    
-    </div>   
+
+
+    </div>
     <div id="content" style="margin-top: 0px ;margin-bottom: 120px; margin-left: 20px; margin-right: 30px">
       <table style="width: 100%;" id="tbinvpnj">
-        <thead>
+
           <tr>
-            <th style="width: 5%; text-align: right;"><font size="11pt"><b>NO</b></font></th>
-            <th style="width: 12%; text-align: left;"><font size="11pt"><b>Kode Barang</b></font></th>
-            <th style="width: 44%; text-align: left;"><font size="11pt"><b>Nama Barang</b></font></th>
-            <th style="width: 6%; text-align: right;"><font size="11pt"><b>QTY</b></font></th>
-            <th style="width: 5%; text-align: left;"><font size="11pt"><b>Unit</b></font></th>
-            <th style="width: 11%; text-align: right;"><font size="11pt"><b>Hrg. Satuan</b></font></th>
-            <th style="width: 7%; text-align: right;"><font size="11pt"><b>Disc%</b></font></th>
-            <th style="width: 10%; text-align: right;"><font size="11pt"><b>Sub Total</b></font></th>
+            <td style="width: 5%; text-align: right;"><font size="11pt"><b>NO</b></font></td>
+            <td style="width: 12%; text-align: left;"><font size="11pt"><b>Kode Barang</b></font></td>
+            <td style="width: 44%; text-align: left;"><font size="11pt"><b>Nama Barang</b></font></td>
+            <td style="width: 6%; text-align: right;"><font size="11pt"><b>QTY</b></font></td>
+            <td style="width: 5%; text-align: left;"><font size="11pt"><b>Unit</b></font></td>
+            <td style="width: 11%; text-align: right;"><font size="11pt"><b>Hrg. Satuan</b></font></td>
+            <td style="width: 7%; text-align: right;"><font size="11pt"><b>Disc%</b></font></td>
+            <td style="width: 10%; text-align: right;"><font size="11pt"><b>Sub Total</b></font></td>
           </tr>
-        </thead>
-        <tbody>
+
           @php $i=1 @endphp
           @foreach($brg as $b)
               <tr>
@@ -194,9 +195,9 @@
                     echo rupiah(round($e));
                   @endphp
                 </font></td>
-              </tr>  
+              </tr>
           @endforeach
-        </tbody>
+
       </table>
     </div>
   </body>

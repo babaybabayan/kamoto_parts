@@ -1,13 +1,19 @@
 @extends('template.index')
 
 @section('content')
-	<div class="row">
-    <div class="col-md-11">
-  		<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah"><span class="fa fa-plus-square"></span></button>
-  		<div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
+  <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
+  <div class="row">
+    <div style="float: left;">
+      <h3>Master Satuan Barang</h3>
+    </div>
+    <div style="float: right;">
+      <div class="col-md-11">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".tambah"><span class="fa fa-plus-square"></span></button>
+      </div>
+      <div class="modal fade tambah" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
-  					<div class="modal-header">
+            <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
               <h4 class="modal-title" id="myModalLabel">Tambah Satuan Barang</h4>
             </div>
@@ -15,23 +21,25 @@
               <div class="modal-body">
                 {{ csrf_field() }}
                 <span id="elorunt"></span><br/>
-  							<label for="name">Nama</label>
+                <label for="name">Nama</label>
                 <input type="text" id="nameunt" class="form-control" name="name" autocomplete="off" required />
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                <a href="#" class="btn btn-primary smpnunt">Simpan</a>
+                <a href="#" class="btn btn-primary smpnunt" id="smpnunt">Simpan</a>
               </div>
             </form>
-  				</div>
+          </div>
         </div>
       </div>
     </div>
-  		<table id="datatable" class="table table-striped table-bordered">
+  </div>
+	<div class="row">
+  		<table id="dtbrg" class="table table-striped table-bordered" style="width: 100%">
         <thead>
           <tr>
-            <th style="text-align: center; width: 30%">Nama</th>
-            <th style="text-align: center; width: 10%"></th>
+            <th style="width: 90%; text-align: center">Nama</th>
+            <th></th>
           </tr>
         </thead>
   			<tbody>

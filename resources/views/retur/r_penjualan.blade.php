@@ -3,6 +3,9 @@
 @section('content')
   <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
   <div class="row">
+    <h3>Retur Penjualan</h3>
+  </div>
+  <div class="row">
     <form action="/rtr/rpnj" method="post" enctype="multipart/form-data" class="form-horizontal">
       {{ csrf_field() }}
       <div class="col-md-2">

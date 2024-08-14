@@ -15,12 +15,22 @@ class SupplierController extends Controller{
     public function tambah(Request $request){
     	$cdspl = DB::table('supplier')->where('code_supplier', $request->id)->count();
         if ($cdspl == 0) {
+            if ($request->city=='') {
+                $city='-';
+            }else{
+                $city=$request->city;
+            }
+            if ($request->telepon=='') {
+                $telp='-';
+            }else{
+                $telp=$request->telepon;
+            }
             Supplier::create([
 	            'code_supplier' => $request->id,
 	            'name' => $request->nama,
 	            'address' => $request->alamat,
-	            'city' => $request->city,
-	            'telp' => $request->telepon
+	            'city' => $city,
+	            'telp' => $telp
 	        ]);
         }
         return Response::json(['success'=>true, 'info'=>$cdspl]);
@@ -47,7 +57,7 @@ class SupplierController extends Controller{
         $spl = Supplier::where('name', 'LIKE', '%'.$qnamespl.'%')->get();
         $filterResult = array();
         foreach ($spl as $s) {
-            $filterResult[] = $s->code_supplier.' - '.$s->name;
+            $filterResult[] = $s->code_supplier.' - '.$s->name.' - '.$s->city;
         }
         return response()->json($filterResult);
     }
