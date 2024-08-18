@@ -131,7 +131,6 @@
                     },
                     success: function(response) {
                         process(response);
-                        console.log(response);
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', status, error);
