@@ -80,54 +80,6 @@ class BarangController extends Controller{
         $totalQuantity = $products->count();
         return view('barang/persediaan', ['products' =>  $products, 'totalAsset' => $totalAsset, 'totalQuantity' => $totalQuantity]);
     }
-    public function load_namebrgpmb(Request $request){
-        $qnamebrg = $request->get('namebrgpmb');
-        $brg = Barang::where('name', 'LIKE', '%'.$qnamebrg.'%')->orderBy('name','ASC')->get();
-        $filterResult = array();
-        foreach ($brg as $b) {
-            $qty = DB::table('price')->where('id_product','=',$b->id)->sum('quantity');
-            $ch = DB::table('price')->where('id_product', $b->id)->count();
-            if ($ch==0) {
-                $hb=0;
-            }else{
-                $hbo = Barang_harga::where('id_product', $b->id)->where('capital','>',0)->orderBy('id', 'DESC')->take(1)->get();
-                foreach ($hbo as $h) {
-                    $hb=$h->capital;
-                }
-            }
-            $filterResult[] = $b->code_product.' - '.$b->name.' - '.$qty.' - '.number_format($hb,0,',','.');
-        }
-        return response()->json($filterResult);
-    }
-
-    public function load_namebrghpmb(Request $request){
-        $qnamebrg = $request->get('namebrghpmb');
-        $brg = Barang::where('name', 'LIKE', '%'.$qnamebrg.'%')->orderBy('name','ASC')->get();
-        $filterResult = array();
-        foreach ($brg as $b) {
-            $qty = DB::table('price')->where('id_product','=',$b->id)->sum('quantity');
-            $ch = DB::table('price')->where('id_product', $b->id)->count();
-            if ($ch==0) {
-                $hb=0;
-            }else{
-                $hbo = Barang_harga::where('id_product', $b->id)->where('capital','>',0)->orderBy('id', 'DESC')->take(1)->get();
-                foreach ($hbo as $h) {
-                    $hb=$h->capital;
-                }
-            }
-            $filterResult[] = $b->code_product.' - '.$b->name.' - '.$qty.' - '.number_format($hb,0,',','.');
-        }
-        return response()->json($filterResult);
-    }
-    public function load_namebrghpnj(Request $request){
-        $qnamebrg = $request->get('namebrghpnj');
-        $brg = DB::table('price as a')->selectRaw('a.id,b.code_product,b.name,b.id as idb,sum(a.quantity) as qty,b.def_price')->join('product_name as b', 'a.id_product', '=', 'b.id')->where('name', 'LIKE', '%'.$qnamebrg.'%')->whereRaw('a.quantity > 0 group by a.id_product')->orderBy('b.name','ASC')->get();
-        $filterResult = array();
-        foreach ($brg as $b) {
-            $filterResult[] = $b->code_product.' - '.$b->name.' - '.$b->qty.' - '.number_format($b->def_price,0,',','.');
-        }
-        return response()->json($filterResult);
-    }
 
     private function getAllInventoryValue() {
         $prices = Barang_harga::with('product','product.unit')->get();
