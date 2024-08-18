@@ -25,14 +25,17 @@
     <br />
     <div class="row">
         <div class="col-md-2">
-            <input type="text" class="form-control has-feedback-left namesplpmb" placeholder="Pilih Supplier" autocomplete="off">
-            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden" class="idsplpmb" id="idsplpmb">
+            <input type="text" class="form-control has-feedback-left namesplpmb" placeholder="Pilih Supplier"
+                autocomplete="off">
+            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span><input type="hidden"
+                class="idsplpmb" id="idsplpmb">
         </div>
     </div>
     <br />
     <div class="row">
         <div class="col-md-5">
-            <input type="text" class="form-control has-feedback-left namebrgpmb" id="namebrgpmb" placeholder="Pilih Barang" autocomplete="off" disabled>
+            <input type="text" class="form-control has-feedback-left namebrgpmb" id="namebrgpmb"
+                placeholder="Pilih Barang" autocomplete="off" disabled>
             <span class="fa fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
         </div>
     </div>
@@ -87,16 +90,17 @@
         </div>
     </div>
     <div class="modal fade hrgmdlpmb" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-          </div>
-            <div class="modal-body">
-              
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
             </div>
         </div>
-      </div>
     </div>
     <div class="row">
         <div class="col-md-10">
@@ -107,3 +111,45 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        };
+
+        $('.namebrgpmb').typeahead({
+            source: debounce(function(searchValue, process) {
+                $.ajax({
+                    url: "{{ url('/product/get-search-product') }}",
+                    method: 'GET',
+                    data: {
+                        value: searchValue
+                    },
+                    success: function(response) {
+                        process(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', status, error);
+                    }
+                });
+            }, 500)
+        });
+
+        $(".namebrgpmb").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            $.ajax({
+                url: '/trs/pmb/tmbrg/' + a,
+                type: 'get',
+                data: {},
+                success: function(data) {
+
+                },
+            });
+        });
+    </script>
+@endpush

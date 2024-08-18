@@ -1,71 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Kamoto Parts</title>
-    <link href="{{url('gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/nprogress/nprogress.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet">
-    <link href="{{url('datepicker/datepicker3.css')}}" rel="stylesheet">
-    <link href="{{url('daterangepicker/daterangepicker.css')}}" rel="stylesheet">
-    <link href="{{url('gentelella-master/build/css/custom.min.css')}}" rel="stylesheet">
-  </head>
-  <body class="nav-md">
+    <link href="{{ url('gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}"
+        rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}"
+        rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css') }}"
+        rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css') }}"
+        rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}"
+        rel="stylesheet">
+    <link href="{{ url('gentelella-master/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}"
+        rel="stylesheet">
+    <link href="{{ url('datepicker/datepicker3.css') }}" rel="stylesheet">
+    <link href="{{ url('daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+    <link href="{{ url('gentelella-master/build/css/custom.min.css') }}" rel="stylesheet">
+</head>
+
+<body class="nav-md">
     <div class="container body">
-      <div class="main_container">
-        @include('template.sidebar')
-        @include('template.header')
-        <div class="right_col" role="main">
-          @yield('content')
+        <div class="main_container">
+            @include('template.sidebar')
+            @include('template.header')
+            <div class="right_col" role="main">
+                @yield('content')
+            </div>
+            @include('template.footer')
         </div>
-        @include('template.footer')
-      </div>
     </div>
-    <script src="{{url('gentelella-master/vendors/jquery/dist/jquery.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    
-    <script src="{{url('gentelella-master/vendors/fastclick/lib/fastclick.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/nprogress/nprogress.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/iCheck/icheck.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/datatables.net-scroller/js/dataTables.scroller.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/jszip/dist/jszip.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/pdfmake/build/pdfmake.min.js')}}"></script>
-    <script src="{{url('gentelella-master/vendors/pdfmake/build/vfs_fonts.js')}}"></script>
-    <script src="{{url('daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{url('datepicker/bootstrap-datepicker.js')}}"></script>
-    <script src="{{url('kamotoparts/typehead.js')}}"></script>
+    <script src="{{ url('gentelella-master/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ url('gentelella-master/vendors/fastclick/lib/fastclick.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/nprogress/nprogress.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}">
+    </script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}">
+    </script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/jszip/dist/jszip.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ url('gentelella-master/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ url('daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ url('datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ url('kamotoparts/typehead.js') }}"></script>
 
     <script type="text/javascript">
-    
-        var route = "{{url('/cus/namecus')}}";
+        var route = "{{ url('/cus/namecus') }}";
         $('.namecus').typeahead({
-            source: function (query, process){
+            source: function(query, process) {
                 return $.get(route, {
                     query: query
-                }, function (data){
+                }, function(data) {
                     return process(data);
                 });
             }
@@ -85,12 +94,12 @@
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
         });
-        var namesls = "{{url('/sls/namesls')}}";
+        var namesls = "{{ url('/sls/namesls') }}";
         $('.namesls').typeahead({
-            source: function (query, process){
+            source: function(query, process) {
                 return $.get(namesls, {
                     query: query
-                }, function (data){
+                }, function(data) {
                     return process(data);
                 });
             }
@@ -109,12 +118,12 @@
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
         });
-        var namesplpmb = "{{url('/spl/namesplpmb')}}";
+        var namesplpmb = "{{ url('/spl/namesplpmb') }}";
         $('.namesplpmb').typeahead({
-            source: function (qnamespl, process){
+            source: function(qnamespl, process) {
                 return $.get(namesplpmb, {
                     qnamespl: qnamespl
-                }, function (data){
+                }, function(data) {
                     return process(data);
                 });
             }
@@ -134,79 +143,13 @@
                 error: function(jqXHR, textStatus, errorThrown) {}
             });
         });
-        var namebrgpmb = "{{url('/brg/namebrgpmb')}}";
-        $('.namebrgpmb').typeahead({
-            source: function (qnamebrg, process){
-                return $.get(namebrgpmb, {
-                    qnamebrg: qnamebrg
-                }, function (data){
-                    return process(data);
-                });
-            }
-        });
-        $(".namebrgpmb").change(function() {
-            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
-            $.ajax({
-                url: '/trs/pmb/tmbrg/' + a,
-                type: 'get',
-                data: {},
-                success: function(data) {
-                    
-                },
-            });
-        });
-        var namebrgpnj = "{{url('/brg/namebrgpnj')}}";
-        $('.namebrgpnj').typeahead({
-            source: function (qnamebrg, process){
-                return $.get(namebrgpnj, {
-                    qnamebrg: qnamebrg
-                }, function (data){
-                    return process(data);
-                });
-            }
-        });
-        $(".namebrgpnj").change(function() {
-            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
-            var b = $('.idcus').val();
-            $.ajax({
-                url: '/trs/pnj/tmbrg/'+a+'/'+b,
-                type: 'get',
-                data: {},
-                success: function(data) {
-                    
-                },
-            });
-        });
 
-        var namebrghpnj = "{{url('/brg/namebrghpnj')}}";
-        $('.namebrghpnj').typeahead({
-            source: function (qnamebrg, process){
-                return $.get(namebrghpnj, {
-                    qnamebrg: qnamebrg
-                }, function (data){
-                    return process(data);
-                });
-            }
-        });
-        $(".namebrghpnj").change(function() {
-            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
-            var b = $('.idpympnj').val();
-            var c = $('.idcushpnj').val();
-            $.ajax({
-                url: '/hst/epnj/tmbrg/'+a+'/'+b+'/'+c,
-                type: 'get',
-                data: {},
-                success: function(data) {
-                    
-                },
-            });
-        });
-        var nameslsrpt = "{{url('/sls/nameslsrpt')}}";
+        var nameslsrpt = "{{ url('/sls/nameslsrpt') }}";
         $('.nameslsrpt').typeahead({
-            source: function (query, process){
+            source: function(query, process) {
                 return $.get(nameslsrpt, {
                     query: query
-                }, function (data){
+                }, function(data) {
                     return process(data);
                 });
             }
@@ -228,7 +171,8 @@
         });
     </script>
     @stack('scripts')
-    <script src="{{url('kamotoparts/kamotoparts.js')}}"></script>
-    <script src="{{url('gentelella-master/build/js/custom.min.js')}}"></script>
-  </body>
+    <script src="{{ url('kamotoparts/kamotoparts.js') }}"></script>
+    <script src="{{ url('gentelella-master/build/js/custom.min.js') }}"></script>
+</body>
+
 </html>

@@ -29,13 +29,16 @@
         <input type="hidden" class="tglak" value="{{ $tglak }}">
         <input type="hidden" class="tgl" value="{{ date('Y-m-d') }}">
         <div class="col-md-2">
-            <input type="text" class="form-control has-feedback-left" value="{{ date('d-m-Y', strtotime($tgl3)) }}" readonly>
+            <input type="text" class="form-control has-feedback-left" value="{{ date('d-m-Y', strtotime($tgl3)) }}"
+                readonly>
             <input type="hidden" class="hstglpmb1" value="{{ date('m-d-Y', strtotime($tgl3)) }}">
             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
         </div>
-        <div class="col-md-1"><input type="text" class="form-control htmpopmb" onkeyup="htempopmb()" value="{{ $hari }}"></div>
+        <div class="col-md-1"><input type="text" class="form-control htmpopmb" onkeyup="htempopmb()"
+                value="{{ $hari }}"></div>
         <div class="col-md-2">
-            <input type="text" class="form-control has-feedback-left htgltmpopmb" value="{{ date('d-m-Y', strtotime($tgl4)) }}" readonly>
+            <input type="text" class="form-control has-feedback-left htgltmpopmb"
+                value="{{ date('d-m-Y', strtotime($tgl4)) }}" readonly>
             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
         </div>
     </div>
@@ -56,13 +59,15 @@
     <br />
     <div class="row">
         <div class="col-md-5">
-            <input type="text" class="form-control has-feedback-left namebrghpmb" placeholder="Pilih Barang" autocomplete="off">
+            <input type="text" class="form-control has-feedback-left namebrghpmb" placeholder="Pilih Barang"
+                autocomplete="off">
             <span class="fa fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
         </div>
     </div>
     <br />
     <div class="row">
-        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal thstpmbform" id="thstpmbform" name="thstpmbform">
+        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal thstpmbform"
+            id="thstpmbform" name="thstpmbform">
             {{ csrf_field() }}
             <input type="hidden" class="idspl" name="idspl" value="{{ $idspl }}">
             <table class="table table-bordered" id="tbhstpnj" style="width: 100%">
@@ -86,16 +91,16 @@
         </form>
     </div>
     <div class="modal fade hrgmdlhpmb" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-          </div>
-            <div class="modal-body">
-              
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
             </div>
         </div>
-      </div>
     </div>
     <div class="row">
         <div class="col-md-10">
@@ -108,46 +113,45 @@
 @endsection
 
 @push('scripts')
-<script>
-    function debounce(func, wait) {
-        let timeout;
-        return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
+    <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
         };
-    };
-
-    $('.namebrghpmb').typeahead({
-        source: debounce(function (searchValue, process) {
-            $.ajax({
-                url: "{{url('/product/get-search-product')}}",
-                method: 'GET',
-                data: {
-                    value: searchValue
-                },
-                success: function (response) {
-                    process(response);
-                    console.log(response);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', status, error);
-                }
-            });
-        }, 500)
-    });
-
-    $(".namebrghpmb").change(function() {
-        var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
-        var b = $('.idpympmb').val();
-        var c = $('.idsplhpmb').val();
-        $.ajax({
-            url: '/hst/epmb/tmbrg/'+a+'/'+b+'/'+c,
-            type: 'get',
-            data: {},
-            success: function(data) {
-                
-            },
+        $('.namebrghpmb').typeahead({
+            source: debounce(function(searchValue, process) {
+                $.ajax({
+                    url: "{{ url('/product/get-search-product') }}",
+                    method: 'GET',
+                    data: {
+                        value: searchValue
+                    },
+                    success: function(response) {
+                        process(response);
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', status, error);
+                    }
+                });
+            }, 500)
         });
-    });
-</script>
+
+        $(".namebrghpmb").change(function() {
+            var a = $(this).val().replace(/^(.{1}[^\s]*).*/, "$1");
+            var b = $('.idpympmb').val();
+            var c = $('.idsplhpmb').val();
+            $.ajax({
+                url: '/hst/epmb/tmbrg/' + a + '/' + b + '/' + c,
+                type: 'get',
+                data: {},
+                success: function(data) {
+
+                },
+            });
+        });
+    </script>
 @endpush
