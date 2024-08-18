@@ -65,6 +65,13 @@
                 </tr>
             </thead>
             <tbody>
+                <?php
+                function rupiah($angka)
+                {
+                    $hasil_rupiah = number_format($angka, 0, ',', ',');
+                    return $hasil_rupiah;
+                }
+                ?>
                 @foreach ($products as $product)
                     <tr>
                         <td><a href="#" data-toggle="modal"
