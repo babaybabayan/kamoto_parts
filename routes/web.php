@@ -29,7 +29,7 @@ Route::get('/brg/sat', [UnitController::class, 'index'])->middleware('auth');
 Route::post('/brg/sat/tmb', [UnitController::class, 'tambah']);
 Route::put('/brg/sat/ubah/{id}', [UnitController::class, 'ubah']);
 Route::get('/sld', [BarangController::class, 'saldo'])->middleware('auth');
-Route::get('/psd', [BarangController::class, 'persediaan'])->middleware('auth');
+Route::get('/persediaan', [BarangController::class, 'persediaan'])->middleware('auth');
 Route::get('/product/get-search-product', [BarangController::class, 'getProductWithPrice']);
 
 Route::get('/spl', [SupplierController::class, 'index'])->middleware('auth');

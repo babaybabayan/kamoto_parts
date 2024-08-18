@@ -36,7 +36,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach ($products as $product)
                     <tr>
                         <td><a href="#" data-toggle="modal"
@@ -68,8 +67,7 @@
                                 <div class="modal-body" style="text-align: center">
                                     <a href="/hst/brgpmb/{{ $product->id_product }}"
                                         class="btn btn-primary">PEMBELIAN</a><br />
-                                    <a href="/hst/brgpnj/{{ $product->id_product }}"
-                                        class="btn btn-primary">PENJUALAN</a>
+                                    <a href="/hst/brgpnj/{{ $product->id_product }}" class="btn btn-primary">PENJUALAN</a>
                                 </div>
                             </div>
                         </div>

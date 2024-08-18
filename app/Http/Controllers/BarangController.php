@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Response;
 use App\Models\Barang;
 use App\Models\Barang_harga;
 use App\Models\Unit;
 
 class BarangController extends Controller{
     public function index(){
-        $brg = DB::table('product_name as a')->select('a.id','a.code_product','a.name','a.weight','a.id as idb','b.name as nameu','b.id as idu','a.def_price')->join('unit as b', 'a.id_unit', '=', 'b.id')->orderBy('a.name','asc')->get();
+        $products = Barang::with('unit')->orderBy('name', 'desc')->get();
+        $mappedProducts = $products->map(function($product){
+            return (object) ([
+                'id' => $product->id,
+                'code' => $product->code_product,
+                'name' => $product->name,
+                'weight' => $product->weight,
+                'price' => $product->def_price,
+                'unitId' => $product->id_unit,
+                'unit' => $product->unit->name,
+            ]);
+        });
         $unit = Unit::all();
-        return view('barang/barang', ['brg' => $brg, 'unit' => $unit]);
+        return view('barang/barang', ['products' => $mappedProducts, 'unit' => $unit]);
     }
     public function tambah(Request $request){
     	$cdprd = DB::table('product_name')->where('code_product', $request->kode)->count();
@@ -37,7 +47,7 @@ class BarangController extends Controller{
                 'id_unit' => $request->unit
 	        ]);
         }
-        return Response::json(['success'=>true, 'info'=>$cdprd]);
+        return response()->json(['success'=>true, 'info'=>$cdprd]);
     }
     public function ubah($id_brg, Request $request){
         $hrg = preg_replace("/[^0-9]/", "", $request->iddefprice);
@@ -51,9 +61,17 @@ class BarangController extends Controller{
         return redirect('/brg');
     }
     public function saldo(){
-        $brg = DB::table('price as a')->select('a.id','b.code_product','b.name','b.id as idb','c.name as nameu','c.id as idu')->join('product_name as b', 'a.id_product', '=', 'b.id')->join('unit as c', 'b.id_unit', '=', 'c.id')->where('a.quantity','>',0)->groupBy('a.id_product')->orderBy('b.name','asc')->get();
-        $unit = Unit::all();
-        return view('barang/saldo', ['brg' => $brg, 'unit' => $unit]);
+        $dataProducts = Barang::with("unit","prices")->get();
+        $mappedProducts = $dataProducts->map(function($product){
+            return (object) ([
+                'id' => $product->id,
+                'code' => $product->code_product,
+                'name' => $product->name,
+                'unit' => $product->unit->name,
+                'stock' => $product->prices->pluck('quantity')->sum(),
+            ]);
+        });
+        return view('barang/saldo', ['products' => $mappedProducts]);
     }
     public function persediaan(){
         $inventoryValues = $this->getAllInventoryValue();
@@ -64,7 +82,6 @@ class BarangController extends Controller{
                 'capital' => $value['capital'],
                 'selling' => $value['selling'],
                 'quantity' => $value['quantity'],
-                'id_product' => $value['id_product'],
                 'code_product' => $value['product']['code_product'],
                 'product_name' => $value['product']['name'],
                 'weight' => $value['product']['weight'],

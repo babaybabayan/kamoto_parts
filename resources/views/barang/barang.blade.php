@@ -1,7 +1,7 @@
 @extends('template.index')
 
 @section('content')
-    <link href="{{url('kamotoparts/kamotoparts.css')}}" rel="stylesheet">
+    <link href="{{ url('kamotoparts/kamotoparts.css') }}" rel="stylesheet">
     <div class="row">
         <div style="float: left">
             <h3>Master Barang</h3>
@@ -33,7 +33,8 @@
                                 <label for="weight">Berat</label>
                                 <input type="text" id="weight" class="form-control" name="weight" autocomplete="off">
                                 <label for="defprice">Harga Umum</label>
-                                <input type="text" id="defprice" class="form-control defprice" name="defprice" autocomplete="off" onkeyup="gethutbrg(this)">
+                                <input type="text" id="defprice" class="form-control defprice" name="defprice"
+                                    autocomplete="off" onkeyup="gethutbrg(this)">
                                 <label for="unit">Satuan</label>
                                 <select class="form-control" name="unit">
                                     @foreach ($unit as $u)
@@ -64,31 +65,28 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                  function rupiah($angka){
-                    $hasil_rupiah = number_format($angka,0,',',',');
-                    return $hasil_rupiah;
-                  }
-                ?>
-                @foreach ($brg as $b)
+                @foreach ($products as $product)
                     <tr>
                         <td><a href="#" data-toggle="modal"
-                                data-target=".hst{{ $b->idb }}">{{ $b->code_product }}</a></td>
-                        <td><a href="#" data-toggle="modal" data-target=".hst{{ $b->idb }}">{{ $b->name }}</a>
+                                data-target=".hst{{ $product->id }}">{{ $product->code }}</a></td>
+                        <td><a href="#" data-toggle="modal"
+                                data-target=".hst{{ $product->id }}">{{ $product->name }}</a>
                         </td>
-                        <td><a href="#" data-toggle="modal" data-target=".hst{{ $b->idb }}">{{ $b->weight }}</a>
-                        <td style="text-align: right"><a href="#" data-toggle="modal" data-target=".hst{{ $b->idb }}">{{ rupiah($b->def_price) }}</a>
+                        <td><a href="#" data-toggle="modal"
+                                data-target=".hst{{ $product->id }}">{{ $product->weight }}</a>
+                        <td style="text-align: right"><a href="#" data-toggle="modal"
+                                data-target=".hst{{ $product->id }}">{{ rupiah($product->price) }}</a>
                         </td>
                         <td style="text-align: center"><a href="#" data-toggle="modal"
-                                data-target=".hst{{ $b->idb }}">{{ $b->nameu }}</a></td>
+                                data-target=".hst{{ $product->id }}">{{ $product->unit }}</a></td>
                         <td style="text-align: center">
                             <button type="button" class="btn btn-success" data-toggle="modal"
-                                data-target=".ubah{{ $b->idb }}">
+                                data-target=".ubah{{ $product->id }}">
                                 <span class="fa fa-edit"></span>
                             </button>
                         </td>
                     </tr>
-                    <div class="modal fade ubah{{ $b->idb }}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade ubah{{ $product->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -97,42 +95,45 @@
                                     </button>
                                     <h4 class="modal-title" id="myModalLabel">Ubah Data Barang</h4>
                                 </div>
-                                <form action="/brg/ubah/{{ $b->idb }}" method="post" enctype="multipart/form-data"
-                                    id="demo-form" data-parsley-validate>
+                                <form action="/brg/ubah/{{ $product->id }}" method="post"
+                                    enctype="multipart/form-data" id="demo-form" data-parsley-validate>
                                     <div class="modal-body">
                                         {{ csrf_field() }}
                                         {{ method_field('PUT') }}
                                         <label for="ukode">Kode</label>
                                         <input type="text" id="ukode" class="form-control" name="ukode"
-                                            value="{{ $b->code_product }}" autocomplete="off">
+                                            value="{{ $product->code }}" autocomplete="off">
                                         <label for="unama">Nama</label>
                                         <input type="text" id="unama" class="form-control" name="unama"
-                                            value="{{ $b->name }}" autocomplete="off">
+                                            value="{{ $product->name }}" autocomplete="off">
                                         <label for="idweight">Berat</label>
-                                        <input type="text" id="idweight" class="form-control idweight" name="idweight"
-                                            value="{{ $b->weight }}" onclick="setnolwgbrg(this)" autocomplete="off">
+                                        <input type="text" id="idweight" class="form-control idweight"
+                                            name="idweight" value="{{ $product->weight }}" onclick="setnolwgbrg(this)"
+                                            autocomplete="off">
                                         <label for="iddefprice">Harga Umum</label>
-                                        <input type="text" id="iddefprice" class="form-control iddefprice" name="iddefprice"
-                                            value="{{ $b->def_price }}" onclick="setnolhubrg(this)" onkeyup="gethubrg(this)" autocomplete="off">
+                                        <input type="text" id="iddefprice" class="form-control iddefprice"
+                                            name="iddefprice" value="{{ $product->price }}" onclick="setnolhubrg(this)"
+                                            onkeyup="gethubrg(this)" autocomplete="off">
                                         <label for="uunit">Satuan</label>
                                         <select class="form-control" name="uunit">
-                                            <option value="{{ $b->idu }}">{{ $b->nameu }}</option>
+                                            <option value="{{ $product->unitId }}">{{ $product->unit }}</option>
                                             @foreach ($unit as $u)
-                                                @if ($b->idu != $u->id)
+                                                @if ($product->unitId != $u->id)
                                                     <option value="{{ $u->id }}">{{ $u->name }}</option>
                                                 @endif
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">Tutup</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade hst{{ $b->idb }}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal fade hst{{ $product->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -141,8 +142,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body" style="text-align: center">
-                                    <a href="/hst/brgpmb/{{ $b->idb }}" class="btn btn-primary">PEMBELIAN</a><br />
-                                    <a href="/hst/brgpnj/{{ $b->idb }}" class="btn btn-primary">PENJUALAN</a>
+                                    <a href="/hst/brgpmb/{{ $product->id }}" class="btn btn-primary">PEMBELIAN</a><br />
+                                    <a href="/hst/brgpnj/{{ $product->id }}" class="btn btn-primary">PENJUALAN</a>
                                 </div>
                             </div>
                         </div>

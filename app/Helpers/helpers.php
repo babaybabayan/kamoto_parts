@@ -8,6 +8,11 @@ function convertToIdr ($angka) {
     return number_format($angka, 0, ',', '.');
 }
 
+function rupiah($angka){
+    $hasil_rupiah = number_format($angka, 0, ',', ',');
+    return $hasil_rupiah;
+}
+
 function idrToStringDesc ($angka) {
     $angka = abs($angka);
     $baca  = array('', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas');
