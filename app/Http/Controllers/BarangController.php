@@ -91,7 +91,7 @@ class BarangController extends Controller{
 
     public function getProductWithPrice(Request $request) {
         $requestName = $request->value;
-        $products = Barang::with('prices')->where('name', 'like', '%'.$requestName.'%')->get();
+        $products = Barang::with('prices')->where('name', 'like', '%'.$requestName.'%')->take(8)->get();
         $mapProducts = $products->map(function($product) {
             return (object) ([
                 'idProduct' => $product['id'],

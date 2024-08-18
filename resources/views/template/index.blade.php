@@ -170,9 +170,10 @@
             });
         });
     </script>
-    @stack('scripts')
+
     <script src="{{ url('kamotoparts/kamotoparts.js') }}"></script>
     <script src="{{ url('gentelella-master/build/js/custom.min.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>
