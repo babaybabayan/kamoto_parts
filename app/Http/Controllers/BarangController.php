@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Barang;
 use App\Models\Barang_harga;
 use App\Models\Unit;
 
 class BarangController extends Controller{
     public function index(){
-        $products = Barang::with('unit')->orderBy('name', 'desc')->get();
-        $mappedProducts = $products->map(function($product){
+        $products = Barang::with('unit')->orderBy('name', 'asc')->get();
+        $mappedProducts = $products->map(function($product) {
             return (object) ([
                 'id' => $product->id,
                 'code' => $product->code_product,
@@ -25,39 +24,39 @@ class BarangController extends Controller{
         $unit = Unit::all();
         return view('barang/barang', ['products' => $mappedProducts, 'unit' => $unit]);
     }
+    public function getProductById($id) {
+        $products = Barang::with('unit')->findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail Data Post',
+            'data'    => $products
+        ]);
+    }
+
     public function tambah(Request $request){
-    	$cdprd = DB::table('product_name')->where('code_product', $request->kode)->count();
-        if ($cdprd == 0) {
-            if ($request->weight=='') {
-                $brt=0;
-            }else{
-                $brt=$request->weight;
-            }
-            $hrg = preg_replace("/[^0-9]/", "", $request->defprice);
-            if ($hrg=='') {
-                $dp=0;
-            }else{
-                $dp=$hrg;
-            }
+        $productExist = Barang::where('code_product', $request->kode)->exists();
+        if (!$productExist) {
+            $weight = $request->weigh ?? 0;
+            $price = preg_replace("/[^0-9]/", "", $request->defprice) ?? 0;
             Barang::create([
 	            'code_product' => $request->kode,
 	            'name' => $request->nama,
-	            'weight' => $brt,
-                'def_price' => $dp,
+	            'weight' => $weight,
+                'def_price' => $price,
                 'id_unit' => $request->unit
 	        ]);
         }
-        return response()->json(['success'=>true, 'info'=>$cdprd]);
+        return response()->json(['success'=>true, 'info'=>$productExist]);
     }
     public function ubah($id_brg, Request $request){
-        $hrg = preg_replace("/[^0-9]/", "", $request->iddefprice);
-        $brg = Barang::find($id_brg);
-        $brg->code_product = $request->ukode;
-        $brg->name = $request->unama;
-        $brg->weight = $request->idweight;
-        $brg->def_price = $hrg;
-        $brg->id_unit = $request->uunit;
-        $brg->save();
+        $hrg = preg_replace("/[^0-9]/", "", $request["product-price"]);
+        $products = Barang::find($id_brg);
+        $products->code_product = $request["product-code"];
+        $products->name = $request["product-name"];
+        $products->weight = $request["product-weight"] ?? 0;
+        $products->def_price = $hrg;
+        $products->id_unit = $request["product-unit"];
+        $products->save();
         return redirect('/brg');
     }
     public function saldo(){
@@ -77,20 +76,20 @@ class BarangController extends Controller{
         $inventoryValues = $this->getAllInventoryValue();
         $products = $inventoryValues->map(function($value) {
             return (object) ([
-                'id' => $value['id'],
-                'id_product' => $value['id_product'],
-                'capital' => $value['capital'],
-                'selling' => $value['selling'],
-                'quantity' => $value['quantity'],
-                'code_product' => $value['product']['code_product'],
-                'product_name' => $value['product']['name'],
-                'weight' => $value['product']['weight'],
-                'unit' => $value['product']['unit']['name'],
-                'date' => dateformatted($value['created_at']),
-                'grandTotal' => $value['capital'] * $value['quantity']
+                'id' => $value['id'] ?? "",
+                'id_product' => $value['id_product'] ?? "",
+                'capital' => $value['capital'] ?? "",
+                'selling' => $value['selling'] ?? "",
+                'quantity' => $value['quantity'] ?? "",
+                'code_product' => $value['product']['code_product'] ?? "",
+                'product_name' => $value['product']['name']  ?? "",
+                'weight' => $value['product']['weight']  ?? "",
+                'unit' => $value['product']['unit']['name'] ?? "" ,
+                'date' => dateformatted($value['created_at']) ?? "",
+                'grandTotal' => ($value['capital'] * $value['quantity']) ?? ""
             ]);
         })->sortBy('product_name');
-        $totalAsset = (object)([
+        $totalAsset = (object) ([
             "decimalIdr" => convertToIdr($products->pluck('grandTotal')->sum()),
             "terbilang" => idrToStringDesc($products->pluck('grandTotal')->sum())
         ]);
@@ -118,7 +117,7 @@ class BarangController extends Controller{
                 'price' => $product['def_price'],
             ]);
         });
-        $filterResult = array();
+        $filterResult = [];
         foreach ($mapProducts as $product) {
             $filterResult[] = $product->codeProduct.' - '.$product->productName.' - '.$product->quantity.' - '.number_format($product->price,0,',','.');
         }

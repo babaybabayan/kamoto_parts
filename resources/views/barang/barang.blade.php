@@ -74,8 +74,10 @@
                 ?>
                 @foreach ($products as $product)
                     <tr>
-                        <td><a href="#" data-toggle="modal"
-                                data-target=".hst{{ $product->id }}">{{ $product->code }}</a></td>
+                        <td style='text-align:center; vertical-align:middle'>
+                            <a href="javascript:void(0)" class="btn btn-info btn-xs" id="btn-detail" data-toggle="modal"
+                                data-id="{{ $product->id }}">{{ $product->code }}</a>
+                        </td>
                         <td><a href="#" data-toggle="modal"
                                 data-target=".hst{{ $product->id }}">{{ $product->name }}</a>
                         </td>
@@ -87,76 +89,50 @@
                         <td style="text-align: center"><a href="#" data-toggle="modal"
                                 data-target=".hst{{ $product->id }}">{{ $product->unit }}</a></td>
                         <td style="text-align: center">
-                            <button type="button" class="btn btn-success" data-toggle="modal"
-                                data-target=".ubah{{ $product->id }}">
+                            <button type="button" id="btn-edit-post" class="btn btn-success" data-toggle="modal"
+                                data-id="{{ $product->id }}">
                                 <span class="fa fa-edit"></span>
                             </button>
                         </td>
                     </tr>
-                    <div class="modal fade ubah{{ $product->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                    <h4 class="modal-title" id="myModalLabel">Ubah Data Barang</h4>
-                                </div>
-                                <form action="/brg/ubah/{{ $product->id }}" method="post"
-                                    enctype="multipart/form-data" id="demo-form" data-parsley-validate>
-                                    <div class="modal-body">
-                                        {{ csrf_field() }}
-                                        {{ method_field('PUT') }}
-                                        <label for="ukode">Kode</label>
-                                        <input type="text" id="ukode" class="form-control" name="ukode"
-                                            value="{{ $product->code }}" autocomplete="off">
-                                        <label for="unama">Nama</label>
-                                        <input type="text" id="unama" class="form-control" name="unama"
-                                            value="{{ $product->name }}" autocomplete="off">
-                                        <label for="idweight">Berat</label>
-                                        <input type="text" id="idweight" class="form-control idweight"
-                                            name="idweight" value="{{ $product->weight }}" onclick="setnolwgbrg(this)"
-                                            autocomplete="off">
-                                        <label for="iddefprice">Harga Umum</label>
-                                        <input type="text" id="iddefprice" class="form-control iddefprice"
-                                            name="iddefprice" value="{{ $product->price }}" onclick="setnolhubrg(this)"
-                                            onkeyup="gethubrg(this)" autocomplete="off">
-                                        <label for="uunit">Satuan</label>
-                                        <select class="form-control" name="uunit">
-                                            <option value="{{ $product->unitId }}">{{ $product->unit }}</option>
-                                            @foreach ($unit as $u)
-                                                @if ($product->unitId != $u->id)
-                                                    <option value="{{ $u->id }}">{{ $u->name }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default"
-                                            data-dismiss="modal">Tutup</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade hst{{ $product->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" style="text-align: center">
-                                    <a href="/hst/brgpmb/{{ $product->id }}" class="btn btn-primary">PEMBELIAN</a><br />
-                                    <a href="/hst/brgpnj/{{ $product->id }}" class="btn btn-primary">PENJUALAN</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </tbody>
         </table>
+        <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="text-align: center">
+                        <a href="" id="pembelian" class="btn btn-primary">PEMBELIAN</a><br />
+                        <a href="" id="penjualan" class="btn btn-primary">PENJUALAN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    @include('barang.modal-edit')
 @endsection
+
+@push('scripts')
+    <script>
+        // let page = 1;
+        // let isLoading = false;
+        // $(window).scroll(function() {
+        //     let height = ($(document).height());
+        //     console.log($(window).scrollTop() + $(window).height() >= height && !isLoading)
+        //     if ($(window).scrollTop() + $(window).height() >= height && !isLoading) {
+        //         isLoading = true
+        //     }
+        // });
+        $('body').on('click', '#btn-detail', function() {
+            let post_id = $(this).data('id');
+            $('#modal-detail').modal('show');
+            $("#pembelian").attr("href", `/hst/brgpmb/${post_id}`);
+            $("#penjualan").attr("href", `/hst/brgpnj/${post_id}`);
+        });
+    </script>
+@endpush

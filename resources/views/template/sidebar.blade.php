@@ -11,7 +11,7 @@
                     <li><a><i class="fa fa-edit"></i> Master <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="/brg">Barang</a></li>
-                            <li><a href="/sld">Saldo Stok</a></li>
+                            <li><a href="/saldo-stock">Saldo Stok</a></li>
                             <li><a href="/persediaan">Nilai Persediaan</a></li>
                             <li><a href="/brg/sat">Satuan Barang</a></li>
                             <li><a href="/spl">Supplier</a></li>

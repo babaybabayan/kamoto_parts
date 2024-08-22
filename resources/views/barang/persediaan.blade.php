@@ -38,42 +38,50 @@
             <tbody>
                 @foreach ($products as $product)
                     <tr>
-                        <td><a href="#" data-toggle="modal"
-                                data-target=".hstpsd{{ $product->id }}">{{ $product->code_product }}</a></td>
-                        <td><a href="#" data-toggle="modal"
-                                data-target=".hstpsd{{ $product->id }}">{{ $product->product_name }}</a>
+                        <td style='text-align:center; vertical-align:middle'><a href="javascript:void(0)"
+                                class="btn btn-info btn-xs" id="btn-detail" data-toggle="modal"
+                                data-id="{{ $product->id_product }}">{{ $product->code_product }}</a>
                         </td>
-                        <td style="text-align: center"><a href="#" data-toggle="modal"
-                                data-target=".hstpsd{{ $product->id }}">{{ $product->unit }}</a></td>
+                        <td><a href="#" data-toggle="modal">{{ $product->product_name }}</a>
+                        </td>
+                        <td style="text-align: center"><a href="#" data-toggle="modal">{{ $product->unit }}</a></td>
                         <td style="text-align: center">
-                            <a href="#" data-toggle="modal"
-                                data-target=".hstpsd{{ $product->id }}">{{ $product->quantity }}</a>
+                            <a href="#" data-toggle="modal">{{ $product->quantity }}</a>
                         </td>
                         <td style="text-align: center;">
-                            <a href="#" data-toggle="modal"
-                                data-target=".hstpsd{{ $product->id }}">{{ $product->date }}</a>
+                            <a href="#" data-toggle="modal">{{ $product->date }}</a>
                         </td>
-                        <td style="text-align: center;"><a href="#" data-toggle="modal"
-                                data-target=".hstpsd{{ $product->id }}">{{ $product->weight }}</a></td>
+                        <td style="text-align: center;"><a href="#" data-toggle="modal">{{ $product->weight }}</a>
+                        </td>
                         <td style="text-align: right;">{{ $product->capital }}</td>
                     </tr>
-                    <div class="modal fade hstpsd{{ $product->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span
-                                            aria-hidden="true">×</span></button>
-                                </div>
-                                <div class="modal-body" style="text-align: center">
-                                    <a href="/hst/brgpmb/{{ $product->id_product }}"
-                                        class="btn btn-primary">PEMBELIAN</a><br />
-                                    <a href="/hst/brgpnj/{{ $product->id_product }}" class="btn btn-primary">PENJUALAN</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </tbody>
         </table>
+        <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body" style="text-align: center">
+                        <a href="" id="pembelian" class="btn btn-primary">PEMBELIAN</a><br />
+                        <a href="" id="penjualan" class="btn btn-primary">PENJUALAN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $('body').on('click', '#btn-detail', function() {
+            let post_id = $(this).data('id');
+            $('#modal-detail').modal('show');
+            $("#pembelian").attr("href", `/hst/brgpmb/${post_id}`);
+            $("#penjualan").attr("href", `/hst/brgpnj/${post_id}`);
+        });
+    </script>
+@endpush
