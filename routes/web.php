@@ -17,21 +17,24 @@ use App\Http\Controllers\SettingInvController;
 Route::get('/', function () {
     return redirect('/home');
 });
-Route::get('/home', [DashboardController::class, 'index'])->middleware('auth');
+
+Route::group(['middleware'=> 'auth'], function () {
+    Route::get('/home', [DashboardController::class, 'index']);
+    // Products router
+    Route::get('/brg', [BarangController::class, 'index']);
+    Route::post('/brg/tmb', [BarangController::class, 'tambah']);
+    Route::put('/brg/ubah/{id_brg}', [BarangController::class, 'ubah']);
+    Route::get('/saldo-stock', [BarangController::class, 'saldo']);
+    Route::get('/persediaan', [BarangController::class, 'persediaan']);
+    Route::get('/product/get-search-product', [BarangController::class, 'getProductWithPrice']);
+    Route::get('/product/get-product/{id_brg}', [BarangController::class, 'getProductById'])->name('product.update');
+});
 
 Route::get('/stg', [SettingInvController::class, 'index'])->middleware('auth');
 Route::put('/stg/ubah/{id}', [SettingInvController::class, 'ubah']);
-
-Route::get('/brg', [BarangController::class, 'index'])->middleware('auth');
-Route::post('/brg/tmb', [BarangController::class, 'tambah']);
-Route::put('/brg/ubah/{id_brg}', [BarangController::class, 'ubah']);
 Route::get('/brg/sat', [UnitController::class, 'index'])->middleware('auth');
 Route::post('/brg/sat/tmb', [UnitController::class, 'tambah']);
 Route::put('/brg/sat/ubah/{id}', [UnitController::class, 'ubah']);
-Route::get('/saldo-stock', [BarangController::class, 'saldo'])->middleware('auth');
-Route::get('/persediaan', [BarangController::class, 'persediaan'])->middleware('auth');
-Route::get('/product/get-search-product', [BarangController::class, 'getProductWithPrice']);
-Route::get('/product/get-product/{id_brg}', [BarangController::class, 'getProductById']);
 
 Route::get('/spl', [SupplierController::class, 'index'])->middleware('auth');
 Route::post('/spl/tmb', [SupplierController::class, 'tambah']);

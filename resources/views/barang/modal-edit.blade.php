@@ -45,7 +45,7 @@
         $('body').on('click', '#btn-edit-post', function() {
             let post_id = $(this).data('id');
             $.ajax({
-                url: `/product/get-product/${post_id}`,
+                url: "{{ route('product.update', '') }}" + "/" + post_id,
                 type: "GET",
                 cache: false,
                 success: function(response) {
