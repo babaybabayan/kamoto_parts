@@ -60,7 +60,7 @@ class BarangController extends Controller{
         return redirect('/brg');
     }
     public function saldo(){
-        $dataProducts = Barang::with("unit","prices")->get();
+        $dataProducts = Barang::with("unit","prices")->orderBy('name', 'asc')->get();
         $mappedProducts = $dataProducts->map(function($product){
             return (object) ([
                 'id' => $product->id,
@@ -69,7 +69,7 @@ class BarangController extends Controller{
                 'unit' => $product->unit->name,
                 'stock' => $product->prices->pluck('quantity')->sum(),
             ]);
-        });
+        })->where('stock', '>', 0);
         return view('barang/saldo', ['products' => $mappedProducts]);
     }
     public function persediaan(){
